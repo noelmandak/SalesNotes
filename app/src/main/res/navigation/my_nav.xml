@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/order"
+        android:name="com.example.salesnotes.Order"
+        android:label="fragment_order"
+        tools:layout="@layout/fragment_order" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.salesnotes.ui.login.LoginFragment"
+        android:label="fragment_login2"
+        tools:layout="@layout/fragment_login2" />
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.example.salesnotes.CheckoutFragment"
+        android:label="fragment_checkout"
+        tools:layout="@layout/fragment_checkout" />
+    <fragment
+        android:id="@+id/customerFragment"
+        android:name="com.example.salesnotes.CustomerFragment"
+        android:label="fragment_customer"
+        tools:layout="@layout/fragment_customer" />
+    <fragment
+        android:id="@+id/transactionFragment"
+        android:name="com.example.salesnotes.TransactionFragment"
+        android:label="fragment_transaction"
+        tools:layout="@layout/fragment_transaction" />
+    <fragment
+        android:id="@+id/confirmationFragment"
+        android:name="com.example.salesnotes.ConfirmationFragment"
+        android:label="fragment_confirmation"
+        tools:layout="@layout/fragment_confirmation" />
+    <fragment
+        android:id="@+id/login2"
+        android:name="com.example.salesnotes.Login"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/paymentHistoryFragment"
+        android:name="com.example.salesnotes.PaymentHistoryFragment"
+        android:label="fragment_payment_history"
+        tools:layout="@layout/fragment_payment_history" />
+</navigation>

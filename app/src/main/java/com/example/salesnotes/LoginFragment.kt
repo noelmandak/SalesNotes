@@ -6,11 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 
-class Login : Fragment() {
+class LoginFragment : Fragment() {
 
     companion object {
-        fun newInstance() = Login()
+        fun newInstance() = LoginFragment()
     }
 
     private lateinit var viewModel: LoginViewModel
@@ -19,6 +20,8 @@ class Login : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (activity as AppCompatActivity).supportActionBar?.setTitle("Sales Notes Apps")
+
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 

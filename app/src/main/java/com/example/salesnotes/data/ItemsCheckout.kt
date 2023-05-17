@@ -1,6 +1,7 @@
 package com.example.salesnotes.data
 
-data class Items(var productName : String,
-                 var price : Number,
-                 var qty : Number,
-                 var imgUrl : Int)
+data class ItemsCheckout(var productName : String,
+                         var price : Number,
+                         var stock : Number,
+                         var qty : Number,
+                         var imgUrl : Int)

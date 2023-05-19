@@ -26,6 +26,10 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Kamu menekan Order", Toast.LENGTH_LONG).show()
                 navHostFragment.findNavController().navigate(R.id.order)
             }
+            R.id.tbCustomer -> {
+                Toast.makeText(this, "Kamu menekan Customer", Toast.LENGTH_LONG).show()
+                navHostFragment.findNavController().navigate(R.id.customerFragment)
+            }
             R.id.tbPaymentHistory -> {
                 Toast.makeText(this, "Kamu menekan Payment History", Toast.LENGTH_LONG).show()
                 navHostFragment.findNavController().navigate(R.id.paymentHistoryFragment)

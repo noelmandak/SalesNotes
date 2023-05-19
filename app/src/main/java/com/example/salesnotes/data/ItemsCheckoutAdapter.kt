@@ -25,6 +25,7 @@ class ItemsCheckoutAdapter(private  val productList: ArrayList<ItemsCheckout>) :
         val formatter = NumberFormat.getInstance(Locale.getDefault())
 
         val currentItem = productList[position]
+        currentItem
         holder.namaBarang.text = currentItem.productName
         holder.hargaBarang.text =  "Rp ${formatter.format(currentItem.price)}"
         holder.stockBarang.text = "Stock : ${currentItem.stock}"

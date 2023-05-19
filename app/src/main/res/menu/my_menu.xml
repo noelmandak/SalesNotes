@@ -5,6 +5,12 @@
         android:id="@+id/tbOrder"
         android:title="Order" />
     <item
+        android:id="@+id/tbInventory"
+        android:title="Inventory" />
+    <item
+        android:id="@+id/tbCustomer"
+        android:title="Customer" />
+    <item
         android:id="@+id/tbPaymentHistory"
         android:title="Payment History" />
     <item

@@ -30,13 +30,17 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Kamu menekan Customer", Toast.LENGTH_LONG).show()
                 navHostFragment.findNavController().navigate(R.id.customerFragment)
             }
-            R.id.tbPaymentHistory -> {
-                Toast.makeText(this, "Kamu menekan Payment History", Toast.LENGTH_LONG).show()
-                navHostFragment.findNavController().navigate(R.id.paymentHistoryFragment)
+            R.id.tbTransactionHistory -> {
+                Toast.makeText(this, "Kamu menekan Transaction History", Toast.LENGTH_LONG).show()
+                navHostFragment.findNavController().navigate(R.id.transactionFragment)
             }
             R.id.tbLogout -> {
                 Toast.makeText(this, "Kamu menekan Logout", Toast.LENGTH_LONG).show()
                 navHostFragment.findNavController().navigate(R.id.loginFragment)
+            }
+            R.id.tbStock -> {
+                Toast.makeText(this, "Kamu menekan Stock", Toast.LENGTH_LONG).show()
+                navHostFragment.findNavController().navigate(R.id.stockFragment)
             }
         }
         return super.onOptionsItemSelected(item)

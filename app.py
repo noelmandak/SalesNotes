@@ -25,18 +25,23 @@ def verify_admin():
         return jsonify(login_sales(curr_username,curr_password))
     return
 
-@app.route('/customer/<encoded>')
-def all_customers(encoded):
-    username = str(base64.b64decode(bytes(encoded)))[2:-1]
+@app.route('/customer')
+def all_customers():
+    encoded = request.headers.get('token')
+    username = str(base64.b64decode(bytes(encoded,'utf-8')))[2:-1]
+    print(username,"hehe")
     return jsonify(get_customers(username))
 
-@app.route('/item/<encoded>')
-def all_items(encoded):
+@app.route('/item')
+def all_items():
     return jsonify(get_items())
 
+@app.route('/item/<id_category>')
+def item_per_category(id_category):
+    return jsonify(get_items_category(id_category))
 
 if __name__ == '__main__':
     # initiate_table()
     hostname = socket.gethostname()
     ip_address = socket.gethostbyname(hostname)
-    app.run( port=5000, debug=True, threaded=False)
+    app.run( port=5000, debug=True, host="0.0.0.0")

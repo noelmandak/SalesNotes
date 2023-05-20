@@ -29,9 +29,9 @@ class Customer(db.Model):
     name = db.Column('name',db.String(100))
     phone = db.Column('phone',db.String(100))
     address = db.Column('address',db.String(100))
-    def __init__(self,id_sales, name, phone, address): 
-        self.name = name
+    def __init__(self,id_sales, name, phone, address):
         self.id_sales = id_sales
+        self.name = name
         self.phone = phone
         self.address = address
 
@@ -75,6 +75,7 @@ class Det_Transaction(db.Model):
         self.qty = qty
 
 class Inventory(db.Model):
+    id_inventory = db.Column('id_inventory',db.Integer,primary_key=True)
     id_item = db.Column('id_item',db.Integer)
     warehouse_stock = db.Column('warehouse_stock',db.Integer)
     order_qty = db.Column('order_qty',db.Integer)
@@ -93,7 +94,7 @@ def initiate_table():
         db.create_all()
         adm1 = Sales('James Patrick','patrick','111')
         adm2 = Sales('Noel Mandak','noel','222')
-        adm3 = Sales('Elbert Chandra','ebe','333')
+        adm3 = Sales('Udeytama','udey','333')
         db.session.add_all([adm1,adm2,adm3])
         db.session.commit()
         add_dummy_data()
@@ -105,18 +106,51 @@ def add_dummy_data():
             kat = Category(i,j)
             db.session.add(kat)
             db.session.commit()
+        items = [[1,"Ayam Goreng","static/foods/ayamgoreng.jpg",17000],
+                 [1,"Nasi Goreng","static/foods/nasigoreng.jpg",15000],
+                 [1,"Mie Goreng","static/foods/miegoreng.jpg",15000],
+                 [3,"Jamur Goreng","static/snacks/jamurgoreng.jpg",10000],
+                 [3,"Pisang Goreng","static/snacks/pisanggoreng.jpg",10000],
+                 [3,"Tahu Goreng","static/snacks/tahugoreng.jpg",10000],
+                 [3,"Tempe Goreng","static/snacks/tempegoreng.jpg",10000]]
+        for id,nama,url,harga in items:
+            item = Item(id,nama,url,harga)
+            db.session.add(item)
+            db.session.commit()
+        customers = [[1,"Renata","0000002313","RMCI"],
+                     [2,"Jen","123231231","KOS"],
+                     [2,"Jejes","39394990209","situ lah poko"],
+                     [1,"Memet","393030929232","disitu juga"]]
+        for name,sales,phone,address in customers:
+            customer = Customer(name,sales,phone,address)
+            db.session.add(customer)
+            db.session.commit()
+        inventories = [[1,1,1,1],
+                       [2,1,1,1],
+                       [3,1,1,1],
+                       [4,1,1,1],
+                       [5,1,1,1],
+                       [6,1,1,1],
+                       [7,1,1,1],]
+        for id_item, warehouse_stock, order_qty, available_qty in inventories:
+            inventory = Inventory(id_item, warehouse_stock, order_qty, available_qty)
+            db.session.add(inventory)
+            db.session.commit()
 
 # FUNCTIONAL
 
 def login_sales(username,password):
     with app.app_context():
+        print("masuk login")
         adm = db.session.query(Sales.name, Sales.id_sales, Sales.username).filter(Sales.username==username,Sales.password==password).all()
         for nama,id,username in adm:
+            print(username)
+            print(base64.b64encode(bytes(username,'utf-8')))
             data = {
                 'nama':nama,
                 'id':id,
                 'status':'success',
-                'encoded': str(base64.b64encode(bytes(username)))[2:-1],
+                'encoded': str(base64.b64encode(bytes(username,'utf-8')))[2:-1],
             }
             print("login berhasil")
             return data
@@ -129,6 +163,7 @@ def get_customers(username):
     with app.app_context():
         customers = db.session.query(Customer.id_customer, Customer.name, Customer.phone, Customer.address).join(Sales,Customer.id_sales==Sales.id_sales).filter(Sales.username==username).all()
         list_customers = []
+        print(customers)
         for id_customer ,name ,phone ,address in customers:
             data = {
                 'id_customer' : id_customer,
@@ -138,7 +173,7 @@ def get_customers(username):
             }
             print("List Customer berhasil ditampilkan")
             list_customers.append(data)
-        return data
+        return list_customers
 
 def get_items():
     with app.app_context():
@@ -155,12 +190,13 @@ def get_items():
                 'stock':stock,
             }
             list_items.append(data)
+        print(len(list_items))
         return list_items
 
 def check_stock(id_item):
     with app.app_context():
-        stock = db.session.query(Inventory.available_qty).join(Item,Inventory.id_item == Item.id_item).filter(Item.id_item==id_item).all()
-        return stock[0] #?
+        stock = db.session.query(Inventory.available_qty).join(Item,Inventory.id_item == Item.id_item).filter(Inventory.id_item==id_item).all()
+        return stock[0][0] #?
 
 def checkout(id_item,order_qty,available_qty): #?
     with app.app_context():
@@ -178,4 +214,23 @@ def delivered(id_item,warehouse_stock,order_qty):
         db.session.commit()
         return 'Success'
 
+def get_items_category(id_category):
+    with app.app_context():
+        items = db.session.query(Item.id_item,Category.name,Item.name,Item.picture_url,Item.price).join(Category,Category.id_category == Item.id_category).filter(Item.id_category==id_category).all()
+        list_items = []
+        for id_item, category, name, picture_url, price in items:
+            stock = check_stock(id_item)
+            data = {
+                'id_item' : id_item,
+                'category':category,
+                'name':name,
+                'picture_url':picture_url,
+                'price':price,
+                'stock':stock,
+            }
+            list_items.append(data)
+        print(len(list_items))
+        return list_items
 
+# COBA
+initiate_table()

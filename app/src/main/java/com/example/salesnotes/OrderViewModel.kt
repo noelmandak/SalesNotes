@@ -7,7 +7,7 @@ import com.example.salesnotes.data.Items
 import com.example.salesnotes.data.ItemsAdapter
 
 class OrderViewModel : ViewModel() {
-    val category = arrayListOf<String>("Food","Drink","Snacks")
+    val category = arrayListOf<String>("All","Food","Drink","Snacks")
     var cart = mutableListOf<Int>()
     lateinit var productArrayList : ArrayList<Items>
     var searchKey = MutableLiveData<String>("")

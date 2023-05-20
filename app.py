@@ -37,11 +37,11 @@ def all_items():
     return jsonify(get_items())
 
 @app.route('/item/<id_category>')
-def all_items(id_category):
+def item_per_category(id_category):
     return jsonify(get_items_category(id_category))
 
 if __name__ == '__main__':
     # initiate_table()
     hostname = socket.gethostname()
     ip_address = socket.gethostbyname(hostname)
-    app.run( port=5000, debug=True, threaded=False)
+    app.run( port=5000, debug=True, host="0.0.0.0")

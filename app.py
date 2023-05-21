@@ -34,9 +34,9 @@ def all_customers():
         print(username,"hehe")
         return jsonify(get_customers(username))
 
-@app.route('/item')
-def all_items():
-    return jsonify(get_items())
+# @app.route('/item')
+# def all_items():
+#     return jsonify(get_items())
 
 @app.route('/item/<id_category>')
 def item_per_category(id_category):
@@ -46,17 +46,38 @@ def item_per_category(id_category):
 def get_item_stock():
     return jsonify(get_all_stock())
 
-
-# blm jadi bos
-@app.route('/checkout',methods=['POST','GET'])
+@app.route('/checkout',methods=['POST'])
 def checkout():
     if request.method == 'POST':
         # print('hello2')
         data = request.get_json()
         customer_id = data["customerId"]
         items = data["cart"]
+        return jsonify(add_transaction(customer_id,items))
 
-    return 
+@app.route('/sent_order/<id>')
+def send_order(id):
+    return jsonify(sent_transaction(id))
+
+@app.route('/cancel_order/<id>')
+def cancle_order(id):
+    return jsonify(cancle_transaction(id))
+
+@app.route('/transaction')
+def all_transaction():
+    return jsonify(get_all_transaction())
+
+@app.route('/item', methods=['GET'])
+def get_item():
+    if request.method == 'GET':
+        if "q" in request.args:
+            search = request.args["q"]
+            print(search)
+            return jsonify(search_item_name(search))
+        else:
+            return jsonify(get_items())
+
+
 
 if __name__ == '__main__':
     # initiate_table()

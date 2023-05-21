@@ -1,7 +1,9 @@
 from flask import Flask,url_for,jsonify
 from flask_sqlalchemy import SQLAlchemy
 import base64
+from datetime import datetime
 from flask_cors import CORS
+import pytz # $ pip install pytz
 
 app = Flask(__name__)
 CORS(app, resources={r"*": {"origins": "*"}})
@@ -56,13 +58,15 @@ class Category(db.Model):
 
 class Transaction(db.Model):
     id_transaction = db.Column('id_transaction',db.Integer,primary_key=True)
-    date = db.Column('date',db.Date)
+    date = db.Column('date',db.String(100))
     id_customer = db.Column('id_customer',db.Integer)
     total_price = db.Column('total_price',db.Integer)
-    def __init__(self,date, id_customer, total_price):
+    status = db.Column('status',db.String(100))
+    def __init__(self,date, id_customer, total_price,status):
         self.date = date
         self.id_customer = id_customer
         self.total_price = total_price
+        self.status = status
 
 class Det_Transaction(db.Model):
     id_det_transaction = db.Column('id_det_transaction',db.Integer,primary_key=True)
@@ -128,18 +132,21 @@ def add_dummy_data():
         customers = [[1,"Renata","0000002313","RMCI"],
                      [2,"Jen","123231231","KOS"],
                      [2,"Jejes","39394990209","situ lah poko"],
-                     [1,"Memet","393030929232","disitu juga"]]
+                     [1,"Memet","393030929232","disitu juga"],
+                     [3,"Jabez","92938939239","apart"],
+                     [3,"Anugerah","77777777777","titip mama udey"]]
+# harga belum nambah
         for name,sales,phone,address in customers:
             customer = Customer(name,sales,phone,address)
             db.session.add(customer)
             db.session.commit()
-        inventories = [[1,1,1,1],
-                       [2,1,1,1],
-                       [3,1,1,1],
-                       [4,1,1,1],
-                       [5,1,1,1],
-                       [6,1,1,1],
-                       [7,1,1,1],]
+        inventories = [[1,100,0,100],
+                       [2,100,0,100],
+                       [3,100,0,100],
+                       [4,100,0,100],
+                       [5,100,0,100],
+                       [6,100,0,100],
+                       [7,100,0,100],]
         for id_item, warehouse_stock, order_qty, available_qty in inventories:
             inventory = Inventory(id_item, warehouse_stock, order_qty, available_qty)
             db.session.add(inventory)
@@ -242,7 +249,7 @@ def get_items_category(id_category):
 
 def get_all_stock():
     with app.app_context():
-        items = db.session.query(Item.name,Item.id_item,Inventory.warehouse_stock,Inventory.order_qty,Inventory.available_qty).join(Inventory,Inventory.id_item,Item.id_item).all()
+        items = db.session.query(Item.name,Item.id_item,Inventory.warehouse_stock,Inventory.order_qty,Inventory.available_qty).join(Inventory,Inventory.id_item == Item.id_item).all()
         list_items = []
         for item_name, item_id, warehouse_stock, order_qty, available_qty in items:
             data = {
@@ -255,6 +262,116 @@ def get_all_stock():
             list_items.append(data)
         print(len(list_items))
         return list_items
+
+def find_item_price(item_id):
+    with app.app_context():
+        price = db.session.query(Item.price).filter(Item.id_item == item_id).all()
+        print(price)
+        return price[0][0]
+    
+def add_transaction(customer_id,items):
+    with app.app_context():
+        price = 0
+        for item in items:
+            price += find_item_price(item["id_item"])*item["qty"]
+            inv = Inventory.query.filter_by(id_item = item["id_item"]).first()
+            inv.available_qty -= item["qty"]
+            inv.order_qty += item["qty"]
+        trans = Transaction(datetime.fromtimestamp(0, pytz.timezone('US/Pacific')),customer_id,price,"Processed")
+        db.session.add(trans)
+        db.session.flush()
+        id_trans = trans.id_transaction
+        for item in items:
+            det_trans = Det_Transaction(id_trans,item["id_item"],item["qty"])
+            db.session.add(det_trans)
+        db.session.commit()
+        resp = {
+            "status" : "success",
+            "id_transaction" : id_trans,
+            "total" : price
+        }
+        print(resp)
+        return resp
+    
+def cancle_transaction(trans_id):
+    with app.app_context():
+        trans = Transaction.query.filter_by(id_transaction = trans_id).first()
+        if trans:
+            dets = Det_Transaction.query.filter_by(id_transaction = trans.id_transaction).all()
+            for det in dets:
+                inv = Inventory.query.filter_by(id_item = det.id_item).first()
+                inv.available_qty += det.qty
+                inv.order_qty -= det.qty
+            trans.status = "Canceled"
+            db.session.commit()
+            return {"status":"success"}
+        return {"status":"failed"}
+    
+
+def sent_transaction(trans_id):
+    with app.app_context():
+        trans = Transaction.query.filter_by(id_transaction = trans_id).first()
+        if trans:
+            dets = Det_Transaction.query.filter_by(id_transaction = trans.id_transaction).all()
+            for det in dets:
+                inv = Inventory.query.filter_by(id_item = det.id_item).first()
+                inv.order_qty -= det.qty
+                inv.warehouse_stock -= det.qty
+            trans.status = "Sent"
+            db.session.commit()
+            return {"status":"success"}
+        return {"status":"failed"}
+    
+def get_all_transaction():
+    with app.app_context():
+        transactions = db.session.query(Customer.name, Transaction.id_transaction, Transaction.total_price, Transaction.status, Transaction.date).join(Transaction,Customer.id_customer == Transaction.id_customer).all()
+        list_transactions = []
+        for name, id, total, status, date in transactions:
+            data = {
+                'name' : name,
+                'id':id,
+                'total':total,
+                'status':status,
+                'date': date,
+            }
+            list_transactions.append(data)
+        return list_transactions
+
+def search_item_name(name):
+    with app.app_context():
+        print(name)
+        search = "%{}%".format(name)
+        all_item = db.session.query(Item.id_item,Category.name,Item.name,Item.picture_url,Item.price).join(Category,Category.id_category == Item.id_category).filter(Item.name.like(search)).all()
+        list_items = []
+        for id_item, category, name, picture_url, price in all_item:
+            stock = check_stock(id_item)
+            data = {
+                'id_item' : id_item,
+                'category' : category,
+                'name':name,
+                'picture_url':picture_url,
+                'price':price,
+                'stock':stock,
+            }
+            list_items.append(data)
+        return list_items
+    
+
+def search_transaction(trans):
+    with app.app_context():
+        search = "%{}%".format(trans)
+        all_transaction = db.session.query(Customer.name, Transaction.id_transaction, Transaction.total_price, Transaction.status, Transaction.date).join(Transaction,Customer.id_customer == Transaction.id_customer).filter(Item.name.like(search)).all()
+        list_transactions = []
+        for name, id, total, status, date in all_transaction:
+            data = {
+                'name' : name,
+                'id':id,
+                'total':total,
+                'status':status,
+                'date': date,
+            }
+            list_transactions.append(data)
+        return list_transactions
 
 # COBA
 initiate_table()

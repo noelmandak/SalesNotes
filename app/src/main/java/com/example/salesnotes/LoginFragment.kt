@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.salesnotes.data.LoginResult
+import com.example.salesnotes.data.TokenManager
 import com.example.salesnotes.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
@@ -48,6 +49,9 @@ class LoginFragment : Fragment() {
                     val token = result.token
                     val status = result.status
                     if (status == "success") {
+                        if (token != null) {
+                            TokenManager.saveToken(requireContext(), token)
+                        }
                         findNavController().navigate(R.id.action_login2_to_order)
                     } else {
                         Toast.makeText(requireContext(), "Username atau password salah", Toast.LENGTH_LONG).show()

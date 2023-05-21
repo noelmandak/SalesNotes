@@ -28,9 +28,11 @@ def verify_admin():
 @app.route('/customer')
 def all_customers():
     encoded = request.headers.get('token')
-    username = str(base64.b64decode(bytes(encoded,'utf-8')))[2:-1]
-    print(username,"hehe")
-    return jsonify(get_customers(username))
+    print(encoded)
+    if encoded:
+        username = str(base64.b64decode(bytes(encoded,'utf-8')))[2:-1]
+        print(username,"hehe")
+        return jsonify(get_customers(username))
 
 @app.route('/item')
 def all_items():

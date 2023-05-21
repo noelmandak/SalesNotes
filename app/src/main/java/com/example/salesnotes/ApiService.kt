@@ -1,6 +1,7 @@
 package com.example.salesnotes
 
 import com.example.salesnotes.data.Customer
+import com.example.salesnotes.data.Item
 import com.example.salesnotes.data.LoginRequest
 import com.example.salesnotes.data.LoginResponse
 import retrofit2.Call
@@ -17,6 +18,10 @@ interface AuthService {
     suspend fun login(
         @Body loginRequest: LoginRequest
     ): Response<LoginResponse>
+}
+interface ItemService {
+    @GET("/item")
+    suspend fun getAllItems(): List<Item>
 }
 interface ApiService {
     @GET("/customer")

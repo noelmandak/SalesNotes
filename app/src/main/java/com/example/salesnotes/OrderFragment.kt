@@ -49,6 +49,15 @@ class OrderFragment : Fragment() {
             findNavController().navigate(R.id.action_order_to_checkoutFragment)
         }
 
+        viewModel.getAllItems()
+
+        viewModel.items.observe(viewLifecycleOwner, Observer { items ->
+            // Lakukan sesuatu dengan daftar item yang diperoleh
+            for (item in items) {
+                // Akses atribut-atribut item seperti item.idItem, item.category, dll.
+            }
+        })
+
 //        viewModel.filteredProductList.observe(viewLifecycleOwner, Observer { productList ->
 //            // Update RecyclerView with the new list of products
 //            (productRecyclerView.adapter as ItemsAdapter).setData(productList)

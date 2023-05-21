@@ -5,14 +5,14 @@
         android:id="@+id/tbOrder"
         android:title="Order" />
     <item
-        android:id="@+id/tbInventory"
-        android:title="Inventory" />
+        android:id="@+id/tbStock"
+        android:title="Stock" />
     <item
         android:id="@+id/tbCustomer"
         android:title="Customer" />
     <item
-        android:id="@+id/tbPaymentHistory"
-        android:title="Payment History" />
+        android:id="@+id/tbTransactionHistory"
+        android:title="Transaction History" />
     <item
         android:id="@+id/tbLogout"
         android:title="Logout" />

@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salesnotes.data.*
 import com.example.salesnotes.databinding.FragmentCustomerBinding
+import retrofit2.Call
+import retrofit2.Response
+import javax.security.auth.callback.Callback
 
 class CustomerFragment : Fragment() {
 
@@ -29,11 +32,18 @@ class CustomerFragment : Fragment() {
         customerRecyclerView.setHasFixedSize(true)
         getCustomerData()
 
+
     }
     private fun getCustomerData() {
+
+        val token = "bm9lbA=="
+        viewModel.getAllCustomers(token)
+
+
+
         var customers_list =  arrayListOf(
-            customer("Renata Valentarjo", 0,"081233333333","planet mars"),
-            customer("Renata Valentarjo", 0,"081233333333","planet mars"),
+            Customer(0,"Renata Valentarjo", "081233333333","planet mars"),
+            Customer(1,"Renata Valentarjo", "081233333333","planet mars"),
 
             )
 

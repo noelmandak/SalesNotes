@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salesnotes.R
 
-class CustomerAdapter(private val customerList: ArrayList<customer>):RecyclerView.Adapter<CustomerAdapter.CustomerHolder>() {
+class CustomerAdapter(private val customerList: ArrayList<Customer>):RecyclerView.Adapter<CustomerAdapter.CustomerHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomerHolder {
         val customerView = LayoutInflater.from(parent.context).inflate(R.layout.list_customer, parent, false)
@@ -22,7 +22,7 @@ class CustomerAdapter(private val customerList: ArrayList<customer>):RecyclerVie
 
         currentCustomer
         holder.nameCustomer.text = currentCustomer.name
-        holder.idCustomer.text = currentCustomer.id.toString()
+        holder.idCustomer.text = currentCustomer.id_customer.toString()
 
     }
 

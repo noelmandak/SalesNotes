@@ -198,7 +198,7 @@ def check_stock(id_item):
         stock = db.session.query(Inventory.available_qty).join(Item,Inventory.id_item == Item.id_item).filter(Inventory.id_item==id_item).all()
         return stock[0][0] #?
 
-def checkout(id_item,order_qty,available_qty): #?
+def when_checkout(id_item,order_qty,available_qty): #?
     with app.app_context():
         item = Inventory.query.filter_by(Inventory.id_item == id_item)
         item.order_qty = order_qty
@@ -227,6 +227,22 @@ def get_items_category(id_category):
                 'picture_url':picture_url,
                 'price':price,
                 'stock':stock,
+            }
+            list_items.append(data)
+        print(len(list_items))
+        return list_items
+
+def get_all_stock():
+    with app.app_context():
+        items = db.session.query(Item.name,Item.id_item,Inventory.warehouse_stock,Inventory.order_qty,Inventory.available_qty).join(Inventory,Inventory.id_item,Item.id_item).all()
+        list_items = []
+        for item_name, item_id, warehouse_stock, order_qty, available_qty in items:
+            data = {
+                'item_name' : item_name,
+                'item_id':item_id,
+                'warehouse_stock':warehouse_stock,
+                'order_qty':order_qty,
+                'available_qty':available_qty,
             }
             list_items.append(data)
         print(len(list_items))

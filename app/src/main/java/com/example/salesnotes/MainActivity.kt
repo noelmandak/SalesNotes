@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.tbLogout -> {
                 Toast.makeText(this, "Kamu menekan Logout", Toast.LENGTH_LONG).show()
-                navHostFragment.findNavController().navigate(R.id.loginFragment)
+                navHostFragment.findNavController().navigate(R.id.login2)
             }
         }
         return super.onOptionsItemSelected(item)

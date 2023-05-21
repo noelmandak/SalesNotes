@@ -1,5 +1,6 @@
 package com.example.salesnotes.data
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.salesnotes.OrderViewModel
 import com.example.salesnotes.R
 import java.text.NumberFormat
+import com.bumptech.glide.Glide
+import com.example.salesnotes.RetrofitInstance
 import java.util.*
-import kotlin.collections.ArrayList
 
-class ItemsAdapter(private  val filteredProductList: MutableLiveData<List<Items>>, private  val viewModel : OrderViewModel) : RecyclerView.Adapter<ItemsAdapter.ProductHolder>() {
+class ItemsAdapter(private val filteredProductList: MutableLiveData<List<Item>>, private val viewModel: OrderViewModel, private val context: Context) : RecyclerView.Adapter<ItemsAdapter.ProductHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductHolder {
 
@@ -29,23 +31,32 @@ class ItemsAdapter(private  val filteredProductList: MutableLiveData<List<Items>
 
         val currentItem = filteredProductList.value?.get(position)
         if (currentItem != null) {
+            currentItem
             holder.namaBarang.text = currentItem.productName
             holder.hargaBarang.text =  "Rp ${formatter.format(currentItem.price)}"
             holder.stockBarang.text = "Stock : ${currentItem.stock}"
-            holder.fotoBarang.setImageResource(currentItem.imgUrl)
             holder.checkbox.setChecked(currentItem.isChecked)
             holder.checkbox.setOnCheckedChangeListener {_, isChecked->
                 viewModel.onCheckboxClicked(currentItem.id,isChecked)
+
             }
+            var imageUrl = RetrofitInstance.BASE_URL + currentItem.imgUrl
+
+            Glide.with(context)
+                .load(imageUrl)
+                .placeholder(R.drawable.nasigoreng) // Gambar placeholder yang ditampilkan sementara
+                .error(R.drawable.miegoreng) // Gambar error yang ditampilkan jika terjadi kesalahan
+                .centerCrop() // Atur gambar menjadi berukuran yang sesuai dengan ImageView dan memotong jika perlu
+                .into(holder.fotoBarang)
         }
 
 
     }
 
-    fun setData(newProductList: List<Items>) {
-        filteredProductList.value = newProductList
-        notifyDataSetChanged()
-    }
+//    fun setData(newProductList: List<Items>) {
+//        filteredProductList.value = newProductList
+//        notifyDataSetChanged()
+//    }
     override fun getItemCount(): Int {
 
         return filteredProductList.value?.size?:0

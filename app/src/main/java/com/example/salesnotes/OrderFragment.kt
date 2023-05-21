@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salesnotes.data.Items
 import com.example.salesnotes.data.ItemsAdapter
+import com.example.salesnotes.data.TokenManager
 import com.example.salesnotes.databinding.FragmentOrderBinding
 
 class OrderFragment : Fragment() {
@@ -42,21 +42,12 @@ class OrderFragment : Fragment() {
         productRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         productRecyclerView.setHasFixedSize(true)
 
-        productRecyclerView.adapter = ItemsAdapter(viewModel.filteredProductList,viewModel)
-
-
+        val token = TokenManager.getToken(requireContext())
+        token
         binding.CheckoutButton.setOnClickListener {
             findNavController().navigate(R.id.action_order_to_checkoutFragment)
         }
 
-        viewModel.getAllItems()
-
-        viewModel.items.observe(viewLifecycleOwner, Observer { items ->
-            // Lakukan sesuatu dengan daftar item yang diperoleh
-            for (item in items) {
-                // Akses atribut-atribut item seperti item.idItem, item.category, dll.
-            }
-        })
 
 //        viewModel.filteredProductList.observe(viewLifecycleOwner, Observer { productList ->
 //            // Update RecyclerView with the new list of products
@@ -74,6 +65,19 @@ class OrderFragment : Fragment() {
     ): View? {
 
         (activity as AppCompatActivity).supportActionBar?.setTitle("Order Entry")
+
+
+        viewModel.items.observe(viewLifecycleOwner, Observer { items ->
+            // Lakukan sesuatu dengan daftar item yang diperoleh
+//            for (item in items) {
+//                item
+//                // Akses atribut-atribut item seperti item.idItem, item.category, dll.
+//            }
+            productRecyclerView.adapter = ItemsAdapter(viewModel.items,viewModel,requireContext())
+        })
+//        productRecyclerView.adapter = ItemsAdapter(viewModel.items,viewModel,requireContext())
+
+
         return binding.root
     }
 }

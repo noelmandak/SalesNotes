@@ -234,7 +234,7 @@ def get_items_category(id_category):
 
 def get_all_stock():
     with app.app_context():
-        items = db.session.query(Item.name,Item.id_item,Inventory.warehouse_stock,Inventory.order_qty,Inventory.available_qty).join(Inventory,Inventory.id_item,Item.id_item).all()
+        items = db.session.query(Item.name,Item.id_item,Inventory.warehouse_stock,Inventory.order_qty,Inventory.available_qty).join(Inventory,Inventory.id_item==Item.id_item).all()
         list_items = []
         for item_name, item_id, warehouse_stock, order_qty, available_qty in items:
             data = {

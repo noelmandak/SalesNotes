@@ -19,7 +19,6 @@ class LoginViewModel : ViewModel() {
                 val response = RetrofitInstance.authService.login(loginRequest)
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
-                    loginResponse
                     val idSales = loginResponse?.id
                     val name = loginResponse?.nama
                     val token = loginResponse?.encoded
@@ -32,7 +31,6 @@ class LoginViewModel : ViewModel() {
                     _loginResult.value = LoginResult.Error("Gagal login") // Atur pesan kesalahan yang sesuai
                 }
             } catch (e : Exception) {
-                e
                 _loginResult.value = LoginResult.Error("Terjadi kesalahan jaringan") // Atur pesan kesalahan yang sesuai
             }
         }

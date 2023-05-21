@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.salesnotes.data.LoginResult
@@ -20,6 +21,7 @@ class LoginFragment : Fragment() {
     private lateinit var viewModel: LoginViewModel
     private lateinit var binding: FragmentLoginBinding
 
+    val sharedViewModel: SharedViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentLoginBinding.inflate(layoutInflater)
@@ -49,9 +51,10 @@ class LoginFragment : Fragment() {
                     val token = result.token
                     val status = result.status
                     if (status == "success") {
-                        if (token != null) {
-                            TokenManager.saveToken(requireContext(), token)
-                        }
+                        if (token != null) sharedViewModel.token = token
+                        if (name != null) sharedViewModel.salesName = name
+                        if (idSales != null) sharedViewModel.salesId = idSales
+
                         findNavController().navigate(R.id.action_login2_to_order)
                     } else {
                         Toast.makeText(requireContext(), "Username atau password salah", Toast.LENGTH_LONG).show()

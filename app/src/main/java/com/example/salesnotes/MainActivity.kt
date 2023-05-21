@@ -5,12 +5,16 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.salesnotes.data.TokenManager
 
 class MainActivity : AppCompatActivity() {
+
+    val sharedViewModel: SharedViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -38,6 +42,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.tbLogout -> {
                 Toast.makeText(this, "Kamu menekan Logout", Toast.LENGTH_LONG).show()
+                sharedViewModel.token=""
                 navHostFragment.findNavController().navigate(R.id.login2)
             }
             R.id.tbStock -> {

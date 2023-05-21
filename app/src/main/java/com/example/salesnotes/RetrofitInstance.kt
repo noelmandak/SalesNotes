@@ -20,5 +20,7 @@ object RetrofitInstance {
         retrofit.create(ApiService::class.java)
     }
 
+
     val itemService = retrofit.create(ItemService::class.java)
+    val stockService = retrofit.create(StockApiService::class.java)
 }

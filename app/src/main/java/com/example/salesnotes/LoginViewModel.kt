@@ -17,7 +17,6 @@ class LoginViewModel : ViewModel() {
             try {
                 val loginRequest = LoginRequest(username, password)
                 val response = RetrofitInstance.authService.login(loginRequest)
-                response
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
                     loginResponse

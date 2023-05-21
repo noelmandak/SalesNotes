@@ -37,7 +37,7 @@ class CheckoutFragment : Fragment() {
         checkoutRecyclerView = binding.CheckoutRecycleView
         checkoutRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         checkoutRecyclerView.setHasFixedSize(true)
-        getCheckoutData()
+//        getCheckoutData()
 
     }
 

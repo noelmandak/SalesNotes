@@ -16,8 +16,9 @@ class OrderViewModel : ViewModel() {
     lateinit var productArrayList : ArrayList<Items>
     var searchKey = MutableLiveData<String>("")
     val filteredProductList = MutableLiveData<List<Items>>()
+
     private val _items = MutableLiveData<List<Item>>()
-    val items: LiveData<List<Item>> get() = _items
+    val items: MutableLiveData<List<Item>> get() = _items
     init {
         var products =  arrayListOf(
             Items("Nasi Goreng", 0,15000,10, false,R.drawable.nasigoreng),
@@ -30,6 +31,7 @@ class OrderViewModel : ViewModel() {
         )
         productArrayList = products
         getProductData()
+        getAllItems()
     }
 
     fun getAllItems() {
@@ -57,7 +59,6 @@ class OrderViewModel : ViewModel() {
                 if (isChecked) { this.cart.add(item.id) }
                 else { this.cart.remove(item.id) }
 
-                this.searchKey.value
             }
         }
     }
@@ -68,8 +69,6 @@ class OrderViewModel : ViewModel() {
         } else {
             productArrayList.filter { it.productName.contains(text, ignoreCase = true) }
         }
-        text
-        filteredList
         filteredProductList.value = filteredList
     }
     fun onDeleteFirst() {
@@ -77,7 +76,6 @@ class OrderViewModel : ViewModel() {
         if (!currentList.isNullOrEmpty()){
             currentList.removeAt(0)
         }
-        currentList
         if (currentList != null) {
             filteredProductList.value = currentList.toMutableList()
         }

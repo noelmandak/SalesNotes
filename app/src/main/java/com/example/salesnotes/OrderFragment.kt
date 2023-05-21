@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -23,6 +24,7 @@ class OrderFragment : Fragment() {
     private lateinit var productRecyclerView : RecyclerView
     private lateinit var productArrayList : ArrayList<Items>
 
+    val sharedViewModel: SharedViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,7 +32,6 @@ class OrderFragment : Fragment() {
 //        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         viewModel = ViewModelProvider(this).get(OrderViewModel::class.java)
-
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
@@ -42,17 +43,16 @@ class OrderFragment : Fragment() {
         productRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         productRecyclerView.setHasFixedSize(true)
 
-        val token = TokenManager.getToken(requireContext())
-        token
         binding.CheckoutButton.setOnClickListener {
-            findNavController().navigate(R.id.action_order_to_checkoutFragment)
+            var items = viewModel.goToCheckout()
+            if (items.size>0){
+                sharedViewModel.checkOutItem = items
+                findNavController().navigate(R.id.action_order_to_checkoutFragment)
+            } else {
+                Toast.makeText(context, "Pilih setidaknya 1 barang", Toast.LENGTH_LONG).show()
+            }
+
         }
-
-
-//        viewModel.filteredProductList.observe(viewLifecycleOwner, Observer { productList ->
-//            // Update RecyclerView with the new list of products
-//            (productRecyclerView.adapter as ItemsAdapter).setData(productList)
-//        })
 
     }
 
@@ -66,13 +66,8 @@ class OrderFragment : Fragment() {
 
         (activity as AppCompatActivity).supportActionBar?.setTitle("Order Entry")
 
-
+        viewModel.getAllItems()
         viewModel.items.observe(viewLifecycleOwner, Observer { items ->
-            // Lakukan sesuatu dengan daftar item yang diperoleh
-//            for (item in items) {
-//                item
-//                // Akses atribut-atribut item seperti item.idItem, item.category, dll.
-//            }
             productRecyclerView.adapter = ItemsAdapter(viewModel.items,viewModel,requireContext())
         })
 //        productRecyclerView.adapter = ItemsAdapter(viewModel.items,viewModel,requireContext())

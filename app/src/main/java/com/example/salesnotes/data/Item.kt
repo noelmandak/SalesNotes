@@ -7,7 +7,8 @@ data class Item(
     @SerializedName("category") val category: String,
     @SerializedName("name") val productName: String,
     @SerializedName("picture_url") val imgUrl: String,
-    @SerializedName("price") val price: Number,
+    @SerializedName("price") val price: Int,
     @SerializedName("stock") val stock: Int,
-    var isChecked: Boolean
+    var isChecked: Boolean,
+    var qty: Int
     )

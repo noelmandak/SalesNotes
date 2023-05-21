@@ -113,10 +113,18 @@ def add_dummy_data():
         items = [[1,"Ayam Goreng","static/foods/ayamgoreng.jpg",17000],
                  [1,"Nasi Goreng","static/foods/nasigoreng.jpg",15000],
                  [1,"Mie Goreng","static/foods/miegoreng.jpg",15000],
+                 [1,"Kwetiau goreng","static/foods/kwetiau-goreng.jpeg",17000],
+                 [1,"Sate Ayam","static/foods/sateayam.jpg",15000],
+                 [2,"Boba Drink","static/beverages/bobadrink.jpg",12000],
+                 [2,"Matcha Latte","static/beverages/matchalatte.jpg",10000],
+                 [2,"Taro Milk Tea","static/beverages/boba-taro.jpg",12000],
+                 [2,"Lemon Tea","static/beverages/lemontea.jpg",10000],
+                 [2,"Lychee Tea","static/beverages/lycheetea.jpg",10000],
                  [3,"Jamur Goreng","static/snacks/jamurgoreng.jpg",10000],
                  [3,"Pisang Goreng","static/snacks/pisanggoreng.jpg",10000],
                  [3,"Tahu Goreng","static/snacks/tahugoreng.jpg",10000],
-                 [3,"Tempe Goreng","static/snacks/tempegoreng.jpg",10000]]
+                 [3,"Tempe Goreng","static/snacks/tempegoreng.jpg",10000]
+                 [3,"Bakwan","static/snacks/bakwan.jpg",10000]]
         for id,nama,url,harga in items:
             item = Item(id,nama,url,harga)
             db.session.add(item)

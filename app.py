@@ -42,6 +42,22 @@ def all_items():
 def item_per_category(id_category):
     return jsonify(get_items_category(id_category))
 
+@app.route('/stock')
+def get_item_stock():
+    return jsonify(get_all_stock())
+
+
+# blm jadi bos
+@app.route('/checkout',methods=['POST','GET'])
+def checkout():
+    if request.method == 'POST':
+        # print('hello2')
+        data = request.get_json()
+        customer_id = data["customerId"]
+        items = data["cart"]
+
+    return 
+
 if __name__ == '__main__':
     # initiate_table()
     hostname = socket.gethostname()

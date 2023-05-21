@@ -10,9 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salesnotes.data.*
 import com.example.salesnotes.databinding.FragmentCustomerBinding
-import retrofit2.Call
-import retrofit2.Response
-import javax.security.auth.callback.Callback
 
 class CustomerFragment : Fragment() {
 
@@ -30,7 +27,7 @@ class CustomerFragment : Fragment() {
         customerRecyclerView = binding.CustomerRecycleView
         customerRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         customerRecyclerView.setHasFixedSize(true)
-        getCustomerData()
+
 
 
     }
@@ -41,21 +38,24 @@ class CustomerFragment : Fragment() {
 
 
 
-        var customers_list =  arrayListOf(
-            Customer(0,"Renata Valentarjo", "081233333333","planet mars"),
-            Customer(1,"Renata Valentarjo", "081233333333","planet mars"),
+//        var customers_list =  arrayListOf(
+//            Customer(0,"Renata Valentarjo", "081233333333","planet mars"),
+//            Customer(1,"Renata Valentarjo", "081233333333","planet mars"),
+//
+//            )
 
-            )
 
-        customers_list
-        customerRecyclerView.adapter = CustomerAdapter(customers_list)
+
 
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_customer, container, false)
+        getCustomerData()
+        viewModel.customersLiveData.value
+        customerRecyclerView.adapter = CustomerAdapter(viewModel.customersLiveData)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

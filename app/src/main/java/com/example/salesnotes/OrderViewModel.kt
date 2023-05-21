@@ -3,16 +3,21 @@ package com.example.salesnotes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.salesnotes.RetrofitInstance.itemService
+import com.example.salesnotes.data.Item
 import com.example.salesnotes.data.Items
 import com.example.salesnotes.data.ItemsAdapter
+import kotlinx.coroutines.launch
 
 class OrderViewModel : ViewModel() {
-    val category = arrayListOf<String>("Food","Drink","Snacks")
+    val category = arrayListOf<String>("All","Food","Drink","Snacks")
     var cart = mutableListOf<Int>()
     lateinit var productArrayList : ArrayList<Items>
     var searchKey = MutableLiveData<String>("")
     val filteredProductList = MutableLiveData<List<Items>>()
-
+    private val _items = MutableLiveData<List<Item>>()
+    val items: LiveData<List<Item>> get() = _items
     init {
         var products =  arrayListOf(
             Items("Nasi Goreng", 0,15000,10, false,R.drawable.nasigoreng),
@@ -25,6 +30,17 @@ class OrderViewModel : ViewModel() {
         )
         productArrayList = products
         getProductData()
+    }
+
+    fun getAllItems() {
+        viewModelScope.launch {
+            try {
+                val itemList = itemService.getAllItems()
+                _items.value = itemList
+            } catch (e: Exception) {
+                // Tangani error
+            }
+        }
     }
 
     fun getProductData() {

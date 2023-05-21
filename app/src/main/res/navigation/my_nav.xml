@@ -51,7 +51,11 @@
         android:id="@+id/login2"
         android:name="com.example.salesnotes.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_login2_to_order"
+            app:destination="@id/order" />
+    </fragment>
     <fragment
         android:id="@+id/paymentHistoryFragment"
         android:name="com.example.salesnotes.PaymentHistoryFragment"

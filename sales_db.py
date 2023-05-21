@@ -141,6 +141,7 @@ def add_dummy_data():
 
 def login_sales(username,password):
     with app.app_context():
+        print("masuk login")
         adm = db.session.query(Sales.name, Sales.id_sales, Sales.username).filter(Sales.username==username,Sales.password==password).all()
         for nama,id,username in adm:
             print(username)

@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.tbLogout -> {
                 Toast.makeText(this, "Kamu menekan Logout", Toast.LENGTH_LONG).show()
-                navHostFragment.findNavController().navigate(R.id.loginFragment)
+                navHostFragment.findNavController().navigate(R.id.login2)
             }
             R.id.tbStock -> {
                 Toast.makeText(this, "Kamu menekan Stock", Toast.LENGTH_LONG).show()

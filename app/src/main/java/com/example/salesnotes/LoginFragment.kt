@@ -6,15 +6,32 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.example.salesnotes.data.LoginResult
+import com.example.salesnotes.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = LoginFragment()
-    }
 
     private lateinit var viewModel: LoginViewModel
+    private lateinit var binding: FragmentLoginBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = FragmentLoginBinding.inflate(layoutInflater)
+        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+
+
+        binding.loginButton.setOnClickListener {
+            val username = binding.username.text.toString()
+            val password = binding.password.text.toString()
+            viewModel.login(username,password)
+        }
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,13 +39,29 @@ class LoginFragment : Fragment() {
     ): View? {
         (activity as AppCompatActivity).supportActionBar?.setTitle("Sales Notes Apps")
 
-        return inflater.inflate(R.layout.fragment_login, container, false)
+
+        viewModel.loginResult.observe(viewLifecycleOwner, Observer { result ->
+            when (result) {
+                is LoginResult.Success -> {
+                    val idSales = result.idSales
+                    val name = result.name
+                    val token = result.token
+                    val status = result.status
+                    if (status == "success") {
+                        findNavController().navigate(R.id.action_login2_to_order)
+                    } else {
+                        Toast.makeText(requireContext(), "Username atau password salah", Toast.LENGTH_LONG).show()
+                    }
+                }
+                is LoginResult.Error -> {
+                    val errorMessage = result.errorMessage
+                    // Tangani pesan kesalahan login
+                    Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
 
 }

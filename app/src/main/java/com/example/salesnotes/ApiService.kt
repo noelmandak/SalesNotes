@@ -1,5 +1,6 @@
 package com.example.salesnotes
 
+import com.example.salesnotes.data.Item
 import com.example.salesnotes.data.LoginRequest
 import com.example.salesnotes.data.LoginResponse
 import retrofit2.Response
@@ -15,4 +16,8 @@ interface AuthService {
     suspend fun login(
         @Body loginRequest: LoginRequest
     ): Response<LoginResponse>
+}
+interface ItemService {
+    @GET("/item")
+    suspend fun getAllItems(): List<Item>
 }

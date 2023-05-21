@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.view.menu.ActionMenuItemView
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salesnotes.R
 
-class StockAdapter(private val stockList : ArrayList<Stock>) :
+class StockAdapter(private val stockList: MutableLiveData<List<Stock>?>) :
     RecyclerView.Adapter<StockAdapter.StockViewHolder>() {
 
 
@@ -18,17 +18,19 @@ class StockAdapter(private val stockList : ArrayList<Stock>) :
     }
 
     override fun getItemCount(): Int {
-        return stockList.size
+        return stockList.value?.size ?: 0
     }
 
     override fun onBindViewHolder(holder: StockViewHolder, position: Int) {
-        val currentStock = stockList[position]
-        holder.itemName.text = currentStock.itemName
-        holder.itemId.text = "ID: ${currentStock.itemId}"
-        holder.stockText.text = currentStock.stock.toString()
-        holder.qtyText.text = currentStock.qty.toString()
-        holder.availableText.text = currentStock.available.toString()
-    }
+        val currentStock = stockList.value?.get(position)
+        if (currentStock != null) {
+            holder.itemName.text = currentStock.itemName
+            holder.itemId.text = "ID: ${currentStock.itemId}"
+            holder.stockText.text = currentStock.stock.toString()
+            holder.qtyText.text = currentStock.qty.toString()
+            holder.availableText.text = currentStock.available.toString()
+            }
+        }
 
     class StockViewHolder(itemview : View) : RecyclerView.ViewHolder(itemview){
 

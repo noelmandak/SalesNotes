@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/custom_border"
     android:orientation="horizontal"
+    android:id="@+id/customerItem"
     android:padding="20dp">
 
     <TextView

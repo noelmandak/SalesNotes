@@ -1,7 +1,6 @@
 package com.example.salesnotes
 
 import com.example.salesnotes.data.*
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -20,11 +19,16 @@ interface ItemService {
     @GET("/item")
     suspend fun getAllItems(): List<Item>
 }
-interface ApiService {
+interface CustomerService {
     @GET("/customer")
-    fun getAllCustomers(@Header("token") token: String): Call<List<Customer>>
+    suspend fun getAllCustomers(@Header("token") token: String): List<Customer>
 }
-interface StockApiService {
+interface StockService {
     @GET("/stock")
-    fun getAllStocks(token: String): Call<List<Stock>>
+    suspend fun getAllStocks(): List<Stock>
+}
+
+interface OrderService {
+    @POST("/checkout")
+    suspend fun createOrder(@Body request: CheckoutRequest): Response<OrderResponse>
 }

@@ -19,18 +19,19 @@ class OrderViewModel : ViewModel() {
 
     private val _items = MutableLiveData<List<Item>>()
     val items: MutableLiveData<List<Item>> get() = _items
+
     init {
-        var products =  arrayListOf(
-            Items("Nasi Goreng", 0,15000,10, false,R.drawable.nasigoreng),
-            Items("Ayam Goreng", 1,17000,10, true,R.drawable.ayamgoreng),
-            Items("Pisang Goreng", 2,5000,10, false,R.drawable.pisanggoreng),
-            Items("Tahu Goreng", 3,5000,10, false, R.drawable.tahugoreng),
-            Items("Jamur Goreng", 4,5000,10, false, R.drawable.jamurgoreng),
-            Items("Tempe Goreng", 5,5000,10, false, R.drawable.tempegoreng),
-            Items("Mie Goreng", 6,15000,10, false, R.drawable.miegoreng),
-        )
-        productArrayList = products
-        getProductData()
+//        var products =  arrayListOf(
+//            Items("Nasi Goreng", 0,15000,10, false,R.drawable.nasigoreng),
+//            Items("Ayam Goreng", 1,17000,10, true,R.drawable.ayamgoreng),
+//            Items("Pisang Goreng", 2,5000,10, false,R.drawable.pisanggoreng),
+//            Items("Tahu Goreng", 3,5000,10, false, R.drawable.tahugoreng),
+//            Items("Jamur Goreng", 4,5000,10, false, R.drawable.jamurgoreng),
+//            Items("Tempe Goreng", 5,5000,10, false, R.drawable.tempegoreng),
+//            Items("Mie Goreng", 6,15000,10, false, R.drawable.miegoreng),
+//        )
+//        productArrayList = products
+//        getProductData()
         getAllItems()
     }
 
@@ -38,39 +39,63 @@ class OrderViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val itemList = itemService.getAllItems()
+                for (i in itemList.indices) {
+                    itemList[i].isChecked = itemList[i].id in cart
+                    itemList[i].qty = 0
+                }
                 _items.value = itemList
             } catch (e: Exception) {
                 // Tangani error
             }
         }
     }
-
-    fun getProductData() {
-        // ...
-
-        this.onTextChanged()
-//        filteredProductList.value = productArrayList
+    fun updateItem() {
+        var itemList = items.value
+        if (itemList != null) {
+            for (i in itemList.indices) {
+                itemList[i].isChecked = itemList[i].id in cart
+                itemList[i].qty = 0
+            }
+            _items.value = itemList.toList()
+        }
+    }
+    fun goToCheckout(): MutableList<Item> {
+        var checkoutItem = mutableListOf<Item>()
+        for (item in _items.value!!) {
+            if (item.id in cart){
+                item.qty = 1
+                checkoutItem.add(item)
+            }
+        }
+        return checkoutItem
     }
 
+//    fun getProductData() {
+//        // ...
+//
+//        this.onTextChanged()
+////        filteredProductList.value = productArrayList
+//    }
+
     fun onCheckboxClicked(id:Int, isChecked:Boolean) {
-        for (item in productArrayList){
+        for (item in items.value!!){
             if (item.id == id) {
                 item.isChecked=isChecked
                 if (isChecked) { this.cart.add(item.id) }
                 else { this.cart.remove(item.id) }
-
+                this.cart
             }
         }
     }
-    fun onTextChanged() {
-        val text = this.searchKey.value.toString()
-        val filteredList = if (text.isBlank()) {
-            productArrayList // Menampilkan semua item jika searchKey kosong
-        } else {
-            productArrayList.filter { it.productName.contains(text, ignoreCase = true) }
-        }
-        filteredProductList.value = filteredList
-    }
+//    fun onTextChanged() {
+//        val text = this.searchKey.value.toString()
+//        val filteredList = if (text.isBlank()) {
+//            productArrayList // Menampilkan semua item jika searchKey kosong
+//        } else {
+//            productArrayList.filter { it.productName.contains(text, ignoreCase = true) }
+//        }
+//        filteredProductList.value = filteredList
+//    }
     fun onDeleteFirst() {
         val currentList = filteredProductList.value?.toMutableList()
         if (!currentList.isNullOrEmpty()){

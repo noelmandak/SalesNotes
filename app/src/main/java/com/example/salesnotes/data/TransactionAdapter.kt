@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salesnotes.CustomerViewModel
 import com.example.salesnotes.R
@@ -20,11 +21,12 @@ class TransactionAdapter(private val transactionList : ArrayList<Transaction>, p
     }
 
     override fun getItemCount(): Int {
-        return transactionList.size
+        return transactionList.value?.size ?: 0
     }
 
     override fun onBindViewHolder(holder: transactionViewHolder, position: Int) {
-        val currentTransaction = transactionList[position]
+        val currentTransaction = transactionList.value?.get(position)
+        if (currentTransaction != null) {
         holder.customerName.text = currentTransaction.customerName
         holder.transactionId.text = "ID: ${currentTransaction.transactionId}"
         holder.transactionValue.text = currentTransaction.transactionValue.toString()

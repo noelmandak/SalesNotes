@@ -18,6 +18,7 @@ interface AuthService {
 interface ItemService {
     @GET("/item")
     suspend fun getAllItems(): List<Item>
+
 }
 interface CustomerService {
     @GET("/customer")
@@ -37,4 +38,8 @@ interface OrderService {
 interface CancelService {
     @POST("'/cancel_order/<id>'")
     suspend fun createOrder(@Body request: CheckoutRequest): Response<OrderResponse>
+}
+interface TransactionService {
+    @GET("/transaction")
+    suspend fun getAllTransactions(@Header("token") token: String): List<Transaction>
 }

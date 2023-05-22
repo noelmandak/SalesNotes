@@ -1,11 +1,11 @@
 package com.example.salesnotes.data
 
-import java.util.Date
+import com.google.gson.annotations.SerializedName
 
 data class Transaction(
-    val customerName : String,
-    val transactionId : Int,
-    val transactionValue : Int,
-    var transactionStatus : String,
-    val tanggal : Date
+    @SerializedName("name") val customerName : String,
+    @SerializedName("id")val transactionId : Int,
+    @SerializedName("total")val transactionValue : Int,
+    @SerializedName("status") val transactionStatus : String
+    @SerializedName("date") val transactionDate : String
 )

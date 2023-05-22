@@ -6,11 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salesnotes.data.ItemsAdapter
+import com.example.salesnotes.data.StockAdapter
 import com.example.salesnotes.data.Transaction
 import com.example.salesnotes.data.TransactionAdapter
 import com.example.salesnotes.databinding.FragmentOrderBinding
@@ -39,8 +41,6 @@ class TransactionFragment : Fragment() {
 //        transactionValue = arrayOf(5000,10000,5000)
 //        transactionStatus = arrayOf("Processed","Sent","Canceled")
 
-
-
         transactionRecyclerView = binding.TransactionRecycleView
         transactionRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         transactionRecyclerView.setHasFixedSize(true)
@@ -56,8 +56,14 @@ class TransactionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val token = "bm9lbA=="
         (activity as AppCompatActivity).supportActionBar?.setTitle("Transaction History")
+        viewModel.getAllTransactions(token)
+        var data = viewModel.transactionLiveData.value
 
+        viewModel.transactionLiveData.observe(viewLifecycleOwner) { transactionLiveData ->
+            transactionRecyclerView.adapter = TransactionAdapter(viewModel.transactionLiveData)
+        }
 
         return binding.root
     }

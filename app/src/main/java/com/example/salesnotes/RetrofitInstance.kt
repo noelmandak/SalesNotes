@@ -26,4 +26,5 @@ object RetrofitInstance {
 
     val itemService = retrofit.create(ItemService::class.java)
     val stockService = retrofit.create(StockService::class.java)
+    val transactionService = retrofit.create(TransactionService::class.java)
 }

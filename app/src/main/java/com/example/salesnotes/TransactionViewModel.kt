@@ -19,11 +19,11 @@ class TransactionViewModel : ViewModel() {
 
     init {
         var transactions = arrayListOf(
-            Transaction("Renata",1,5000,"Processed", Date(1970, 1, 27)),
-            Transaction("Jeni",2,10000,"Sent",Date(1970, 1, 27)),
-            Transaction("Timo",3,5000,"Canceled", Date(1970, 1, 27))
+            Transaction("Renata",1,5000,"Processed", "1969-12-31 16:00:00"),
+            Transaction("Jeni",2,10000,"Sent","1969-12-31 16:00:00"),
+            Transaction("Timo",3,5000,"Canceled","1969-12-31 16:00:00")
         )
-        transactionArrayList = transactions
+//        transactionArrayList = transactions
     }
     
     fun getAllTransactions(token: String){

@@ -28,7 +28,7 @@ class TransactionAdapter(private val transactionList : MutableLiveData<List<Tran
         holder.transactionValue.text = currentTransaction.transactionValue.toString()
         holder.transactionStatus.text = currentTransaction.transactionStatus
         holder.buttonCancel.isEnabled = currentTransaction.transactionStatus == "Processed"
-        holder.tanggal.text = currentTransaction.tanggal.toString()
+        holder.tanggal.text = currentTransaction.transactionDate.toString()
         }
     }
 

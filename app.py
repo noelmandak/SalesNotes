@@ -57,6 +57,7 @@ def checkout():
 
 @app.route('/sent_order/<id>')
 def send_order(id):
+    print(id)
     return jsonify(sent_transaction(id))
 
 @app.route('/cancel_order/<id>')

@@ -33,7 +33,7 @@ class ConfirmationFragment : Fragment() {
 
 
         if (response != null) {
-            binding.transactionId.text = response.transactionId
+            binding.transactionIdTextView.text = response.transactionId
             binding.totalTextView.text = "Rp ${formatter.format(response.total)}"
         }
         binding.orderLagiButton.setOnClickListener {

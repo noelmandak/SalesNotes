@@ -123,7 +123,7 @@ def add_dummy_data():
                  [3,"Jamur Goreng","static/snacks/jamurgoreng.jpg",10000],
                  [3,"Pisang Goreng","static/snacks/pisanggoreng.jpg",10000],
                  [3,"Tahu Goreng","static/snacks/tahugoreng.jpg",10000],
-                 [3,"Tempe Goreng","static/snacks/tempegoreng.jpg",10000]
+                 [3,"Tempe Goreng","static/snacks/tempegoreng.jpg",10000],
                  [3,"Bakwan","static/snacks/bakwan.jpg",10000]]
         for id,nama,url,harga in items:
             item = Item(id,nama,url,harga)
@@ -140,13 +140,7 @@ def add_dummy_data():
             customer = Customer(name,sales,phone,address)
             db.session.add(customer)
             db.session.commit()
-        inventories = [[1,100,0,100],
-                       [2,100,0,100],
-                       [3,100,0,100],
-                       [4,100,0,100],
-                       [5,100,0,100],
-                       [6,100,0,100],
-                       [7,100,0,100],]
+        inventories = [[i,100,0,100] for i in range(1,16)]
         for id_item, warehouse_stock, order_qty, available_qty in inventories:
             inventory = Inventory(id_item, warehouse_stock, order_qty, available_qty)
             db.session.add(inventory)
@@ -211,6 +205,7 @@ def get_items():
 def check_stock(id_item):
     with app.app_context():
         stock = db.session.query(Inventory.available_qty).join(Item,Inventory.id_item == Item.id_item).filter(Inventory.id_item==id_item).all()
+        if len(stock)==0: return 0
         return stock[0][0] #?
 
 def when_checkout(id_item,order_qty,available_qty): #?
@@ -374,4 +369,4 @@ def search_transaction(trans):
         return list_transactions
 
 # COBA
-initiate_table()
+# initiate_table()

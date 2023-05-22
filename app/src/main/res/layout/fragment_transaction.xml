@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Spinner
-            android:id="@+id/category_dropdown"
+            android:id="@+id/categoryDropdown"
             android:layout_width="161dp"
             android:layout_height="36dp"
             android:layout_marginEnd="7dp"
@@ -34,7 +34,7 @@
             android:text="@{viewModel.searchKey}"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/category_dropdown"
+            app:layout_constraintEnd_toStartOf="@+id/categoryDropdown"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent" />
 

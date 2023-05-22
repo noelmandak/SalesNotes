@@ -16,11 +16,14 @@ object RetrofitInstance {
     val authService: AuthService by lazy {
         retrofit.create(AuthService::class.java)
     }
-    val apiService: ApiService by lazy {
-        retrofit.create(ApiService::class.java)
+    val customerService: CustomerService by lazy {
+        retrofit.create(CustomerService::class.java)
     }
 
+    val orderService: OrderService by lazy {
+        retrofit.create(OrderService::class.java)
+    }
 
     val itemService = retrofit.create(ItemService::class.java)
-    val stockService = retrofit.create(StockApiService::class.java)
+    val stockService = retrofit.create(StockService::class.java)
 }

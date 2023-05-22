@@ -15,48 +15,51 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Spinner
-            android:id="@+id/category_dropdown"
-            android:layout_width="161dp"
-            android:layout_height="36dp"
+            android:id="@+id/categoryDropdown"
+            android:layout_width="153dp"
+            android:layout_height="37dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.45" />
 
         <TextView
             android:id="@+id/stockText"
-            android:layout_width="50dp"
+            android:layout_width="80dp"
             android:layout_height="30dp"
-            android:text="Stock"
             android:gravity="center"
-            android:layout_marginLeft="30px"
+            android:text="Stock"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/category_dropdown"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toStartOf="@+id/qtyText"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.592" />
 
         <TextView
             android:id="@+id/qtyText"
-            android:layout_width="50dp"
+            android:layout_width="80dp"
             android:layout_height="30dp"
             android:gravity="center"
-            android:text="QTY"
-            android:layout_marginLeft="30px"
+            android:text="Order Qty"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/stockText"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toStartOf="@+id/availableText"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.592" />
 
         <TextView
             android:id="@+id/availableText"
-            android:layout_width="70dp"
+            android:layout_width="80dp"
             android:layout_height="30dp"
+            android:layout_marginEnd="8dp"
             android:gravity="center"
             android:text="Available"
-            android:layout_marginLeft="30px"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/qtyText"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.592" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

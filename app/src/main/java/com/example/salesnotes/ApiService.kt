@@ -32,3 +32,9 @@ interface OrderService {
     @POST("/checkout")
     suspend fun createOrder(@Body request: CheckoutRequest): Response<OrderResponse>
 }
+
+
+interface CancelService {
+    @POST("'/cancel_order/<id>'")
+    suspend fun createOrder(@Body request: CheckoutRequest): Response<OrderResponse>
+}

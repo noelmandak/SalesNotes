@@ -6,6 +6,6 @@ data class Transaction(
     val customerName : String,
     val transactionId : Int,
     val transactionValue : Int,
-    val transactionStatus : String,
+    var transactionStatus : String,
     val tanggal : Date
 )

@@ -53,6 +53,7 @@ class TransactionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (activity as AppCompatActivity).supportActionBar?.setTitle("Transaction History")
 
 
         return binding.root

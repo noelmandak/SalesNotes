@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salesnotes.R
 
-class StockAdapter(private val stockList: MutableLiveData<List<Stock>?>) :
+class StockAdapter(private val stockList: MutableLiveData<List<Stock>>) :
     RecyclerView.Adapter<StockAdapter.StockViewHolder>() {
 
 
@@ -24,11 +24,11 @@ class StockAdapter(private val stockList: MutableLiveData<List<Stock>?>) :
     override fun onBindViewHolder(holder: StockViewHolder, position: Int) {
         val currentStock = stockList.value?.get(position)
         if (currentStock != null) {
-            holder.itemName.text = currentStock.itemName
-            holder.itemId.text = "ID: ${currentStock.itemId}"
-            holder.stockText.text = currentStock.stock.toString()
-            holder.qtyText.text = currentStock.qty.toString()
-            holder.availableText.text = currentStock.available.toString()
+            holder.itemName.text = currentStock.item_name
+            holder.itemId.text = "ID: ${currentStock.item_id}"
+            holder.stockText.text = currentStock.warehouse_stock.toString()
+            holder.qtyText.text = currentStock.order_qty.toString()
+            holder.availableText.text = currentStock.available_qty.toString()
             }
         }
 

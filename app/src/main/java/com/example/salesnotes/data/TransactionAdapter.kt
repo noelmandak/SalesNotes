@@ -5,11 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.example.salesnotes.CustomerViewModel
 import com.example.salesnotes.R
+import com.example.salesnotes.TransactionViewModel
 
-class TransactionAdapter(private val transactionList : MutableLiveData<List<Transaction>>) :
+class TransactionAdapter(private val transactionList : ArrayList<Transaction>, private val viewModel: TransactionViewModel) :
     RecyclerView.Adapter<TransactionAdapter.transactionViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): transactionViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_transaction, parent, false)
@@ -29,6 +33,8 @@ class TransactionAdapter(private val transactionList : MutableLiveData<List<Tran
         holder.transactionStatus.text = currentTransaction.transactionStatus
         holder.buttonCancel.isEnabled = currentTransaction.transactionStatus == "Processed"
         holder.tanggal.text = currentTransaction.tanggal.toString()
+        holder.buttonCancel.setOnClickListener{
+            viewModel.cancelTransaction(position)
         }
     }
 

@@ -317,9 +317,9 @@ def sent_transaction(trans_id):
             return {"status":"success"}
         return {"status":"failed"}
     
-def get_all_transaction():
+def get_all_transaction(username):
     with app.app_context():
-        transactions = db.session.query(Customer.name, Transaction.id_transaction, Transaction.total_price, Transaction.status, Transaction.date).join(Transaction,Customer.id_customer == Transaction.id_customer).all()
+        transactions = db.session.query(Customer.name, Transaction.id_transaction, Transaction.total_price, Transaction.status, Transaction.date).join(Customer,Customer.id_customer == Transaction.id_customer).join(Sales,Sales.id_sales == Customer.id_sales).filter_by(Sales.username == username).all()
         list_transactions = []
         for name, id, total, status, date in transactions:
             data = {

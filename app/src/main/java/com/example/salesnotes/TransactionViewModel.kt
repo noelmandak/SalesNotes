@@ -10,18 +10,25 @@ import com.example.salesnotes.data.Stock
 import com.example.salesnotes.data.Transaction
 import java.util.*
 import kotlin.collections.ArrayList
+
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import kotlinx.coroutines.launch
 class TransactionViewModel : ViewModel() {
 //    lateinit var transactionArrayList: ArrayList<Transaction>
   
     private val _transactionLiveData: MutableLiveData<List<Transaction>> = MutableLiveData()
     val transactionLiveData : MutableLiveData<List<Transaction>> get() = _transactionLiveData
+    var canceled:MutableLiveData<List<Int>> = MutableLiveData()
 
     init {
         var transactions = arrayListOf(
-            Transaction("Renata",1,5000,"Processed", Date(1970, 1, 27)),
-            Transaction("Jeni",2,10000,"Sent",Date(1970, 1, 27)),
-            Transaction("Timo",3,5000,"Canceled", Date(1970, 1, 27))
+            Transaction("Renata", 1, 5000, "Processed", Date(1970, 1, 27)),
+            Transaction("Jeni", 2, 10000, "Sent", Date(1970, 1, 27)),
+            Transaction("Timo", 3, 5000, "Canceled", Date(1970, 1, 27))
         )
         transactionArrayList = transactions
     }
@@ -37,4 +44,13 @@ class TransactionViewModel : ViewModel() {
             }
         }
     }        
+
+
+    fun cancelTransaction(pos: Int) {
+        transactionArrayList[pos].transactionStatus = "Canceled"
+        transactionArrayList
+    }
 }
+
+
+

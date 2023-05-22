@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salesnotes.data.*
@@ -16,7 +18,7 @@ class CustomerFragment : Fragment() {
     private lateinit var binding: FragmentCustomerBinding
     private lateinit var viewModel: CustomerViewModel
     private lateinit var customerRecyclerView : RecyclerView
-
+    val sharedViewModel: SharedViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -31,30 +33,24 @@ class CustomerFragment : Fragment() {
 
 
     }
-    private fun getCustomerData() {
-
-        val token = "bm9lbA=="
-        viewModel.getAllCustomers(token)
-
-
-
-//        var customers_list =  arrayListOf(
-//            Customer(0,"Renata Valentarjo", "081233333333","planet mars"),
-//            Customer(1,"Renata Valentarjo", "081233333333","planet mars"),
-//
-//            )
-
-
-
-
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        getCustomerData()
-        viewModel.customersLiveData.value
-        customerRecyclerView.adapter = CustomerAdapter(viewModel.customersLiveData)
+        (activity as AppCompatActivity).supportActionBar?.setTitle("Customer Data")
+
+        val token = sharedViewModel.token
+        viewModel.getAllCustomers(token)
+        viewModel.customersLiveData.observe(viewLifecycleOwner) { customerLiveData ->
+            customerRecyclerView.adapter = CustomerAdapter(viewModel.customersLiveData,viewModel)
+        }
+
+        viewModel.currentCustomer.observe(viewLifecycleOwner) {customer->
+            binding.nameTextView.text = customer.name
+            binding.phoneTextView.text = customer.phone
+            binding.addressTextView.text = customer.address
+        }
+
         return binding.root
     }
 

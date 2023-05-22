@@ -4,19 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:padding="8dp">
 
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20px"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.59"
-        android:layout_marginLeft="20px">
+        app:layout_constraintVertical_bias="0.59">
 
         <TextView
             android:id="@+id/itemName"
@@ -38,13 +39,14 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="79dp"
+        android:layout_width="80dp"
         android:layout_height="52dp"
-        android:gravity="center"
+        android:layout_marginBottom="10dp"
 
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout3"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -61,13 +63,14 @@
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="79dp"
+        android:layout_width="80dp"
         android:layout_height="52dp"
-        android:gravity="center"
+        android:layout_marginBottom="10dp"
 
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -84,13 +87,14 @@
 
     <LinearLayout
         android:id="@+id/linearLayout4"
-        android:layout_width="79dp"
+        android:layout_width="80dp"
         android:layout_height="52dp"
-        android:gravity="center"
+        android:layout_marginBottom="10dp"
 
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -105,8 +109,13 @@
 
     </LinearLayout>
 
-
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/item_border"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="8dp"></LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

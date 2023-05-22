@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <Spinner
-                android:id="@+id/category_dropdown"
+                android:id="@+id/categoryDropdown"
                 android:layout_width="161dp"
                 android:layout_height="36dp"
                 android:layout_marginTop="8dp"

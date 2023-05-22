@@ -3,7 +3,13 @@ package com.example.salesnotes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.salesnotes.RetrofitInstance.orderService
+import com.example.salesnotes.data.CartItem
+import com.example.salesnotes.data.CheckoutRequest
 import com.example.salesnotes.data.Item
+import com.example.salesnotes.data.OrderResponse
+import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.*
 
@@ -15,6 +21,7 @@ class CheckoutViewModel : ViewModel() {
     val totalPrice: LiveData<String> get() = _totalPrice
     val formatter = NumberFormat.getInstance(Locale.getDefault())
 
+    var orderRespons : MutableLiveData<OrderResponse> = MutableLiveData()
 
     init {
         _totalPrice.value = "0"
@@ -42,4 +49,29 @@ class CheckoutViewModel : ViewModel() {
         val priceStr = formatter.format(total).toString()
         return priceStr
     }
+    fun createOrder(customerId: Int) {
+        var cart = mutableListOf<CartItem>()
+        customerId
+        for (item in items.value!!){
+            cart.add(CartItem(item.id,item.qty))
+        }
+        cart
+        viewModelScope.launch {
+            try {
+                val response = orderService.createOrder(CheckoutRequest(customerId, cart))
+                response
+                if (response.isSuccessful) {
+                    orderRespons.value = response.body()
+
+                    // Lakukan tindakan yang sesuai dengan responsenya
+                } else {
+                    // Tangani jika responsenya tidak berhasil
+                }
+            } catch (e: Exception) {
+                // Tangani error yang terjadi saat membuat permintaan
+                e
+            }
+        }
+    }
+
 }

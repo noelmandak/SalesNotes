@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+<!--    <solid android:color="@android:color/white" /> &lt;!&ndash; Warna latar belakang item &ndash;&gt;-->
+<!--    <corners android:radius="8dp" /> &lt;!&ndash; Radius sudut item &ndash;&gt;-->
+    <stroke
+        android:width="1dp"
+    android:color="#979797" /> <!-- Warna border -->
+</shape>

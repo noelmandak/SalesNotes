@@ -66,7 +66,12 @@ def cancle_order(id):
 
 @app.route('/transaction')
 def all_transaction():
-    return jsonify(get_all_transaction())
+    encoded = request.headers.get('token')
+    print(encoded)
+    if encoded:
+        username = str(base64.b64decode(bytes(encoded,'utf-8')))[2:-1]
+        print(username,"hehe")
+    return jsonify(get_all_transaction(username))
 
 @app.route('/item', methods=['GET'])
 def get_item():

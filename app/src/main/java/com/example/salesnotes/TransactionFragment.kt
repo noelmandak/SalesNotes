@@ -45,8 +45,10 @@ class TransactionFragment : Fragment() {
         transactionRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         transactionRecyclerView.setHasFixedSize(true)
 
-        transactionRecyclerView.adapter = TransactionAdapter(viewModel.transactionLiveData)
-//        val adapter = ArrayAdapter(requireContext(),viewModel.transactionLiveData)
+
+        transactionRecyclerView.adapter = TransactionAdapter(viewModel.transactionArrayList,viewModel)
+
+
     }
 
     override fun onCreateView(

@@ -46,7 +46,7 @@ class TransactionFragment : Fragment() {
         transactionRecyclerView.setHasFixedSize(true)
 
 
-        transactionRecyclerView.adapter = TransactionAdapter(viewModel.transactionArrayList,viewModel)
+        transactionRecyclerView.adapter = TransactionAdapter(viewModel.transactionLiveData,viewModel)
 
 
     }
@@ -62,7 +62,9 @@ class TransactionFragment : Fragment() {
         var data = viewModel.transactionLiveData.value
 
         viewModel.transactionLiveData.observe(viewLifecycleOwner) { transactionLiveData ->
-            transactionRecyclerView.adapter = TransactionAdapter(viewModel.transactionLiveData)
+            val data =  viewModel.transactionLiveData
+            data
+            transactionRecyclerView.adapter = TransactionAdapter(viewModel.transactionLiveData,viewModel)
         }
 
         return binding.root

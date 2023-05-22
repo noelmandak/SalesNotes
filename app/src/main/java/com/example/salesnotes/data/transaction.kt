@@ -6,7 +6,7 @@ data class Transaction(
     @SerializedName("name") val customerName : String,
     @SerializedName("id")val transactionId : Int,
     @SerializedName("total")val transactionValue : Int,
-    @SerializedName("status") val transactionStatus : String,
+    @SerializedName("status") var transactionStatus : String,
     @SerializedName("date") val transactionDate : String
 
 )

@@ -47,8 +47,9 @@ class TransactionViewModel : ViewModel() {
 
 
     fun cancelTransaction(pos: Int) {
-        transactionArrayList[pos].transactionStatus = "Canceled"
-        transactionArrayList
+        if (transactionLiveData.value != null){
+            _transactionLiveData.value?.get(pos)?.transactionStatus = "Canceled"
+        }
     }
 }
 

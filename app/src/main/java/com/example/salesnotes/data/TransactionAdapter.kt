@@ -13,7 +13,7 @@ import com.example.salesnotes.CustomerViewModel
 import com.example.salesnotes.R
 import com.example.salesnotes.TransactionViewModel
 
-class TransactionAdapter(private val transactionList : ArrayList<Transaction>, private val viewModel: TransactionViewModel) :
+class TransactionAdapter(private val transactionList : MutableLiveData<List<Transaction>>, private val viewModel: TransactionViewModel) :
     RecyclerView.Adapter<TransactionAdapter.transactionViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): transactionViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_transaction, parent, false)

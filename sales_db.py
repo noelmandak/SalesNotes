@@ -272,7 +272,7 @@ def add_transaction(customer_id,items):
             inv = Inventory.query.filter_by(id_item = item["id_item"]).first()
             inv.available_qty -= item["qty"]
             inv.order_qty += item["qty"]
-        trans = Transaction(datetime.fromtimestamp(0, pytz.timezone('US/Pacific')),customer_id,price,"Processed")
+        trans = Transaction(datetime.fromtimestamp(0, pytz.timezone('US/Pacific')),customer_id,price,"Active")
         db.session.add(trans)
         db.session.flush()
         id_trans = trans.id_transaction
@@ -319,7 +319,7 @@ def sent_transaction(trans_id):
     
 def get_all_transaction(username):
     with app.app_context():
-        transactions = db.session.query(Customer.name, Transaction.id_transaction, Transaction.total_price, Transaction.status, Transaction.date).join(Customer,Customer.id_customer == Transaction.id_customer).join(Sales,Sales.id_sales == Customer.id_sales).filter_by(Sales.username == username).all()
+        transactions = db.session.query(Customer.name, Transaction.id_transaction, Transaction.total_price, Transaction.status, Transaction.date).join(Customer,Customer.id_customer == Transaction.id_customer).join(Sales,Sales.id_sales == Customer.id_sales).filter(Sales.username == username).all()
         list_transactions = []
         for name, id, total, status, date in transactions:
             data = {

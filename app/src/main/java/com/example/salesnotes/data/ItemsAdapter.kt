@@ -36,9 +36,11 @@ class ItemsAdapter(private val filteredProductList: MutableLiveData<List<Item>>,
             holder.hargaBarang.text =  "Rp ${formatter.format(currentItem.price)}"
             holder.stockBarang.text = "Stock : ${currentItem.stock}"
             holder.checkbox.setChecked(currentItem.isChecked)
+            if (currentItem.stock == 0) {
+                holder.checkbox.isEnabled = false
+            }
             holder.checkbox.setOnCheckedChangeListener {_, isChecked->
                 viewModel.onCheckboxClicked(currentItem.id,isChecked)
-
             }
             var imageUrl = RetrofitInstance.BASE_URL + currentItem.imgUrl
 
@@ -65,7 +67,7 @@ class ItemsAdapter(private val filteredProductList: MutableLiveData<List<Item>>,
     class  ProductHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
         val namaBarang : TextView = itemView.findViewById(R.id.namaBarangTextView)
         val stockBarang : TextView = itemView.findViewById(R.id.hargaBarangTextView)
-        val hargaBarang : TextView = itemView.findViewById(R.id.hargaTotalBarangTextView)
+        val hargaBarang : TextView = itemView.findViewById(R.id.hargaBarangCheckoutTextView)
         val fotoBarang : ImageView = itemView.findViewById(R.id.namaBarangImageView)
         val checkbox : CheckBox = itemView.findViewById(R.id.productcheckBox)
     }

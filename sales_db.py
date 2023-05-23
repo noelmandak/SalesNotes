@@ -272,6 +272,7 @@ def add_transaction(customer_id,items):
             inv = Inventory.query.filter_by(id_item = item["id_item"]).first()
             inv.available_qty -= item["qty"]
             inv.order_qty += item["qty"]
+            db.session.commit()
         trans = Transaction(datetime.fromtimestamp(0, pytz.timezone('US/Pacific')),customer_id,price,"Active")
         db.session.add(trans)
         db.session.flush()
@@ -288,7 +289,7 @@ def add_transaction(customer_id,items):
         print(resp)
         return resp
     
-def cancle_transaction(trans_id):
+def cancel_transaction(trans_id):
     with app.app_context():
         trans = Transaction.query.filter_by(id_transaction = trans_id).first()
         if trans:

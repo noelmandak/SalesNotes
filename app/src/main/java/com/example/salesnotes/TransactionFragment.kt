@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salesnotes.data.ItemsAdapter
@@ -27,7 +29,7 @@ class TransactionFragment : Fragment() {
     lateinit var transactionValue : Array<Int>
     lateinit var transactionStatus : Array<String>
 
-
+    val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var viewModel: TransactionViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,8 +58,9 @@ class TransactionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val token = "bm9lbA=="
         (activity as AppCompatActivity).supportActionBar?.setTitle("Transaction History")
+
+        val token = sharedViewModel.token
         viewModel.getAllTransactions(token)
         var data = viewModel.transactionLiveData.value
 
@@ -66,6 +69,12 @@ class TransactionFragment : Fragment() {
             data
             transactionRecyclerView.adapter = TransactionAdapter(viewModel.transactionLiveData,viewModel)
         }
+
+        viewModel.refreshTrigger.observe(viewLifecycleOwner, Observer {
+            // Lakukan refresh pada RecyclerView di sini
+            viewModel.getAllTransactions(token)
+            transactionRecyclerView.adapter = TransactionAdapter(viewModel.transactionLiveData,viewModel)
+        })
 
         return binding.root
     }

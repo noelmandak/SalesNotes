@@ -22,7 +22,7 @@
             android:gravity="center"
             android:hint="Search Item"
             android:isScrollContainer="false"
-            android:text="@{viewModel.searchKey}"
+            android:text=""
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView"

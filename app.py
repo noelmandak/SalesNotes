@@ -61,8 +61,9 @@ def send_order(id):
     return jsonify(sent_transaction(id))
 
 @app.route('/cancel_order/<id>')
-def cancle_order(id):
-    return jsonify(cancle_transaction(id))
+def cancel_order(id):
+    print(id)
+    return jsonify(cancel_transaction(id))
 
 @app.route('/transaction')
 def all_transaction():

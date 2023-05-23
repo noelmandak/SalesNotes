@@ -42,4 +42,7 @@ interface CancelService {
 interface TransactionService {
     @GET("/transaction")
     suspend fun getAllTransactions(@Header("token") token: String): List<Transaction>
+
+    @GET("cancel_order/{id}")
+    suspend fun cancelOrder(@Path("id") transactionId: String) : Status
 }

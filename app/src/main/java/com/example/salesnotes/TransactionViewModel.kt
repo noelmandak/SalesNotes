@@ -23,6 +23,7 @@ class TransactionViewModel : ViewModel() {
     private val _transactionLiveData: MutableLiveData<List<Transaction>> = MutableLiveData()
     val transactionLiveData : MutableLiveData<List<Transaction>> get() = _transactionLiveData
     var canceled:MutableLiveData<List<Int>> = MutableLiveData()
+    val refreshTrigger: MutableLiveData<Unit> = MutableLiveData()
 
     init {
         var transactions = arrayListOf(
@@ -32,7 +33,24 @@ class TransactionViewModel : ViewModel() {
         )
 //        transactionArrayList = transactions
     }
-    
+    fun triggerRefresh() {
+        refreshTrigger.value = Unit
+    }
+    fun cancelOrder(transactionId: String){
+        viewModelScope.launch {
+            try {
+                val status = transactionService.cancelOrder(transactionId).status
+                if (status == "success") {
+                    triggerRefresh()
+                }
+            } catch (e: Exception) {
+
+            }
+        }
+    }
+
+
+
     fun getAllTransactions(token: String){
         viewModelScope.launch {
             try {
@@ -44,6 +62,8 @@ class TransactionViewModel : ViewModel() {
             }
         }
     }        
+
+
 
 
     fun cancelTransaction(pos: Int) {

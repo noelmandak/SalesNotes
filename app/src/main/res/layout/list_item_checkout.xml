@@ -30,22 +30,26 @@
             android:id="@+id/namaBarangTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             android:text="Nasi Goreng"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/hargaBarangTextView"
+            android:id="@+id/hargaBarangCheckoutTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rp. 5000" />
+            android:text="Rp. 15.000"
+            android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/hargaTotalBarangTextView"
+            android:id="@+id/hargaTotalBarangTextView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             android:text="Total: Rp. 15.000"
+            android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -56,8 +60,9 @@
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <TextView
             android:id="@+id/textView3"
@@ -73,16 +78,12 @@
             android:ems="2"
             android:inputType="number|text"
             android:textAlignment="center" />
-    </LinearLayout>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="55dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        app:icon="@drawable/baseline_delete_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/hargaBarangTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stock: 100" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

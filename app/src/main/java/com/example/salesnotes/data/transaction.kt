@@ -8,5 +8,4 @@ data class Transaction(
     @SerializedName("total")val transactionValue : Int,
     @SerializedName("status") var transactionStatus : String,
     @SerializedName("date") val transactionDate : String
-
 )

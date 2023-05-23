@@ -13,12 +13,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.salesnotes.CheckoutViewModel
-import com.example.salesnotes.OrderViewModel
 import com.example.salesnotes.R
 import com.example.salesnotes.RetrofitInstance
 import java.text.NumberFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ItemsCheckoutAdapter(private  val productList: MutableLiveData<List<Item>>, private val viewModel: CheckoutViewModel, private val context: Context) : RecyclerView.Adapter<ItemsCheckoutAdapter.ProductHolder>() {
 
@@ -40,6 +38,7 @@ class ItemsCheckoutAdapter(private  val productList: MutableLiveData<List<Item>>
             holder.hargaBarang.text =  "Rp ${formatter.format(currentItem.price)}"
             holder.stockBarang.text = "Stock : ${currentItem.stock}"
             holder.qtyBarang.setText(currentItem.qty.toString())
+            holder.hargaTotalBarang.text = "Total: Rp ${formatter.format(currentItem.price*currentItem.qty)}"
 
             var imageUrl = RetrofitInstance.BASE_URL + currentItem.imgUrl
             Glide.with(context)
@@ -62,8 +61,11 @@ class ItemsCheckoutAdapter(private  val productList: MutableLiveData<List<Item>>
                         if (newText>currentItem.stock){
                             currentItem.qty = currentItem.stock
                             holder.qtyBarang.setText(currentItem.qty.toString())
+                            holder.hargaBarang.text = "Rp ${formatter.format(currentItem.price)}"
+                            holder.hargaTotalBarang.text = "Total: Rp ${formatter.format(currentItem.price*currentItem.qty)}"
                         } else {
                             currentItem.qty = newText
+                            holder.hargaTotalBarang.text = "Total: Rp ${formatter.format(currentItem.price*currentItem.qty)}"
                         }
                     }
                     viewModel.calculateTotalPrice()
@@ -81,7 +83,8 @@ class ItemsCheckoutAdapter(private  val productList: MutableLiveData<List<Item>>
     class  ProductHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
         val namaBarang : TextView = itemView.findViewById(R.id.namaBarangTextView)
         val stockBarang : TextView = itemView.findViewById(R.id.hargaBarangTextView)
-        val hargaBarang : TextView = itemView.findViewById(R.id.hargaTotalBarangTextView)
+        val hargaBarang : TextView = itemView.findViewById(R.id.hargaBarangCheckoutTextView)
+        val hargaTotalBarang : TextView = itemView.findViewById(R.id.hargaTotalBarangTextView2)
         val fotoBarang : ImageView = itemView.findViewById(R.id.namaBarangImageView)
         val qtyBarang : EditText = itemView.findViewById(R.id.qtyEditText)
 

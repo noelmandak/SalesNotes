@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.salesnotes.CustomerViewModel
 import com.example.salesnotes.R
 import com.example.salesnotes.TransactionViewModel
+import java.text.NumberFormat
+import java.util.*
 
 class TransactionAdapter(private val transactionList : MutableLiveData<List<Transaction>>, private val viewModel: TransactionViewModel) :
     RecyclerView.Adapter<TransactionAdapter.transactionViewHolder>() {
@@ -26,13 +28,18 @@ class TransactionAdapter(private val transactionList : MutableLiveData<List<Tran
 
     override fun onBindViewHolder(holder: transactionViewHolder, position: Int) {
         val currentTransaction = transactionList.value?.get(position)
+        val formatter = NumberFormat.getInstance(Locale.getDefault())
+
         if (currentTransaction != null) {
-        holder.customerName.text = currentTransaction.customerName
-        holder.transactionId.text = "ID: ${currentTransaction.transactionId}"
-        holder.transactionValue.text = currentTransaction.transactionValue.toString()
-        holder.transactionStatus.text = currentTransaction.transactionStatus
-        holder.buttonCancel.isEnabled = currentTransaction.transactionStatus == "Processed"
-        holder.tanggal.text = currentTransaction.transactionDate.toString()
+            holder.customerName.text = currentTransaction.customerName
+            holder.transactionId.text = "ID: ${currentTransaction.transactionId}"
+            holder.transactionValue.text =  formatter.format(currentTransaction.transactionValue)
+            holder.transactionStatus.text = currentTransaction.transactionStatus
+            holder.buttonCancel.isEnabled = currentTransaction.transactionStatus == "Active"
+            holder.tanggal.text = currentTransaction.transactionDate.toString()
+            holder.buttonCancel.setOnClickListener {
+                viewModel.cancelOrder(currentTransaction.transactionId.toString())
+            }
         }
     }
 

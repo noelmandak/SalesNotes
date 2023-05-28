@@ -11,7 +11,4 @@ class SharedViewModel : ViewModel() {
     var salesId = "James Patrick"
     var checkOutItem = mutableListOf<Item>()
     var orderRespons : MutableLiveData<OrderResponse> = MutableLiveData()
-
-
-
 }

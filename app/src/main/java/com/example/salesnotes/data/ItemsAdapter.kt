@@ -1,6 +1,9 @@
 package com.example.salesnotes.data
 
 import android.content.Context
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.StrikethroughSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +35,7 @@ class ItemsAdapter(private val filteredProductList: MutableLiveData<List<Item>>,
         val currentItem = filteredProductList.value?.get(position)
         if (currentItem != null) {
             currentItem
-            holder.namaBarang.text = currentItem.productName
+//            holder.namaBarang.text = currentItem.productName
             holder.hargaBarang.text =  "Rp ${formatter.format(currentItem.price)}"
             holder.stockBarang.text = "Stock : ${currentItem.stock}"
             holder.checkbox.setChecked(currentItem.isChecked)
@@ -40,25 +43,31 @@ class ItemsAdapter(private val filteredProductList: MutableLiveData<List<Item>>,
                 holder.checkbox.isEnabled = false
             }
             holder.checkbox.setOnCheckedChangeListener {_, isChecked->
-                viewModel.onCheckboxClicked(currentItem.id,isChecked)
+                viewModel.selectItem(currentItem.id,isChecked)
             }
             var imageUrl = RetrofitInstance.BASE_URL + currentItem.imgUrl
 
             Glide.with(context)
                 .load(imageUrl)
-                .placeholder(R.drawable.nasigoreng) // Gambar placeholder yang ditampilkan sementara
-                .error(R.drawable.miegoreng) // Gambar error yang ditampilkan jika terjadi kesalahan
+                .placeholder(R.drawable.food_loading) // Gambar placeholder yang ditampilkan sementara
+                .error(R.drawable.img_error) // Gambar error yang ditampilkan jika terjadi kesalahan
                 .centerCrop() // Atur gambar menjadi berukuran yang sesuai dengan ImageView dan memotong jika perlu
                 .into(holder.fotoBarang)
+
+            if (currentItem.stock == 0) {
+                // Mencoret nama item
+                val spannableString = SpannableString(currentItem.productName)
+                spannableString.setSpan(StrikethroughSpan(), 0, spannableString.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                holder.namaBarang.text = spannableString
+            } else {
+                // Nama item normal
+                holder.namaBarang.text = currentItem.productName
+            }
         }
 
 
     }
 
-//    fun setData(newProductList: List<Items>) {
-//        filteredProductList.value = newProductList
-//        notifyDataSetChanged()
-//    }
     override fun getItemCount(): Int {
 
         return filteredProductList.value?.size?:0

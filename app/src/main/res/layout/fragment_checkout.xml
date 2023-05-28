@@ -12,41 +12,48 @@
         android:orientation="vertical">
 
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/CheckoutRecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#BF5858" >
+
+        </androidx.recyclerview.widget.RecyclerView>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/purple_200"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:padding="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="wrap_content"
+                android:layout_width="154dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_weight="1"
                 android:text="Pilih Custommer : "
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/black"
                 android:textSize="14sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Spinner
                 android:id="@+id/selectCustomerSpinner"
-                android:layout_width="269dp"
-                android:layout_height="23dp"
+                android:layout_width="227dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FFFFFF"
+                android:padding="8dp"
                 tools:layout_editor_absoluteX="143dp"
                 tools:layout_editor_absoluteY="19dp" />
         </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/CheckoutRecycleView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="#BF5858" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

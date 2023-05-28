@@ -62,7 +62,6 @@ class LoginFragment : Fragment() {
                 }
                 is LoginResult.Error -> {
                     val errorMessage = result.errorMessage
-                    // Tangani pesan kesalahan login
                     Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
                 }
             }

@@ -25,12 +25,9 @@ class CustomerFragment : Fragment() {
         binding = FragmentCustomerBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this).get(CustomerViewModel::class.java)
 
-
         customerRecyclerView = binding.CustomerRecycleView
         customerRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         customerRecyclerView.setHasFixedSize(true)
-
-
 
     }
     override fun onCreateView(
@@ -41,6 +38,7 @@ class CustomerFragment : Fragment() {
 
         val token = sharedViewModel.token
         viewModel.getAllCustomers(token)
+
         viewModel.customersLiveData.observe(viewLifecycleOwner) { customerLiveData ->
             customerRecyclerView.adapter = CustomerAdapter(viewModel.customersLiveData,viewModel)
         }
@@ -54,10 +52,5 @@ class CustomerFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CustomerViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
 
 }

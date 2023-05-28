@@ -4,6 +4,7 @@ import base64
 from datetime import datetime
 from flask_cors import CORS
 import pytz # $ pip install pytz
+import datetime
 
 app = Flask(__name__)
 CORS(app, resources={r"*": {"origins": "*"}})
@@ -273,7 +274,7 @@ def add_transaction(customer_id,items):
             inv.available_qty -= item["qty"]
             inv.order_qty += item["qty"]
             db.session.commit()
-        trans = Transaction(datetime.fromtimestamp(0, pytz.timezone('US/Pacific')),customer_id,price,"Active")
+        trans = Transaction(f"{datetime.datetime.now():%H.%M %d/%m/%Y}",customer_id,price,"Active")
         db.session.add(trans)
         db.session.flush()
         id_trans = trans.id_transaction

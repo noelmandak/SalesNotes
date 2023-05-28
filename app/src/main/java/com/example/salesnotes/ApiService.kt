@@ -2,12 +2,27 @@ package com.example.salesnotes
 
 import com.example.salesnotes.data.*
 import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 //interface ApiService {
 //    @GET("/users")
 //    suspend fun getUsers(): Response<List<User>>
 //}
+class ApiService {
+
+    private lateinit var retrofit: Retrofit
+
+    fun changeBaseUrl(newBaseUrl: String) {
+        retrofit = Retrofit.Builder()
+            .baseUrl(newBaseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    // Metode lain dalam service
+}
 
 interface AuthService {
     @POST("/login")

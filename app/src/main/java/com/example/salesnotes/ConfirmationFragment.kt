@@ -8,15 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.salesnotes.databinding.ConfirmationBinding
 import com.example.salesnotes.databinding.FragmentConfirmationBinding
 import java.text.NumberFormat
 import java.util.*
 
 class ConfirmationFragment : Fragment() {
 
-
-    private lateinit var viewModel: ConfirmationViewModel
     private lateinit var binding: FragmentConfirmationBinding
     val sharedViewModel: SharedViewModel by activityViewModels()
 
@@ -25,7 +22,6 @@ class ConfirmationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModel = ViewModelProvider(this).get(ConfirmationViewModel::class.java)
         binding = FragmentConfirmationBinding.inflate(layoutInflater)
 
         val response = sharedViewModel.orderRespons.value

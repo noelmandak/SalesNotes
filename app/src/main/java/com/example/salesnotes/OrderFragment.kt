@@ -1,6 +1,8 @@
 package com.example.salesnotes
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,8 +31,6 @@ class OrderFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         binding = FragmentOrderBinding.inflate(layoutInflater)
-//        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
         viewModel = ViewModelProvider(this).get(OrderViewModel::class.java)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
@@ -51,8 +51,34 @@ class OrderFragment : Fragment() {
             } else {
                 Toast.makeText(context, "Pilih setidaknya 1 barang", Toast.LENGTH_LONG).show()
             }
-
         }
+
+        binding.searchView.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun afterTextChanged(s: Editable?) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val searchText = s.toString().trim()
+                viewModel.searchItemsByName(searchText)
+                binding.categoryDropdown.setSelection(0)
+                RetrofitInstance.BASE_URL = ""
+            }
+        })
+
+        binding.categoryDropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val selectedItem = parent.getItemAtPosition(position).toString().lowercase()
+                viewModel.filterItemsByCategory(selectedItem)
+                Toast.makeText(requireContext(), "Andak memilih $selectedItem", Toast.LENGTH_SHORT).show()
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+        }
+
+        viewModel.getToastMessage().observe(this, Observer { message ->
+            message?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            }
+        })
+
 
     }
 
@@ -64,14 +90,12 @@ class OrderFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        (activity as AppCompatActivity).supportActionBar?.setTitle("Order Entry")
+        (activity as AppCompatActivity).supportActionBar?.title = "Order Entry"
 
         viewModel.getAllItems()
-        viewModel.items.observe(viewLifecycleOwner, Observer { items ->
-            productRecyclerView.adapter = ItemsAdapter(viewModel.items,viewModel,requireContext())
+        viewModel.filteredItemList.observe(viewLifecycleOwner, Observer { items ->
+            productRecyclerView.adapter = ItemsAdapter(viewModel.filteredItemList,viewModel,requireContext())
         })
-//        productRecyclerView.adapter = ItemsAdapter(viewModel.items,viewModel,requireContext())
-
 
         return binding.root
     }

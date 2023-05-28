@@ -14,9 +14,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.salesnotes.data.Items
-import com.example.salesnotes.data.ItemsAdapter
-import com.example.salesnotes.data.ItemsCheckout
 import com.example.salesnotes.data.ItemsCheckoutAdapter
 import com.example.salesnotes.databinding.FragmentCheckoutBinding
 
@@ -28,20 +25,6 @@ class CheckoutFragment : Fragment() {
     private lateinit var customerViewModel: CustomerViewModel
     val sharedViewModel: SharedViewModel by activityViewModels()
 
-
-
-//    private fun getCheckoutData() {
-//        var products =  arrayListOf(
-//            ItemsCheckout("Nasi Goreng",15000,10,2, R.drawable.nasigoreng),
-//            ItemsCheckout("Ayam Goreng",17000,10,1, R.drawable.ayamgoreng),
-//            ItemsCheckout("Pisang Goreng",5000,10,1, R.drawable.pisanggoreng),
-//            ItemsCheckout("Tahu Goreng",5000,10,1, R.drawable.tahugoreng),
-//            ItemsCheckout("Mie Goreng",15000,10,1, R.drawable.miegoreng),
-//        )
-////        productArrayList = products
-////        checkoutRecyclerView.adapter = ItemsCheckoutAdapter(products)
-//
-//    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -65,12 +48,9 @@ class CheckoutFragment : Fragment() {
 
         customerViewModel.customersLiveData.observe(viewLifecycleOwner) { customerList->
             customerViewModel.toArray()
-            customerViewModel.arrayCustomer
             val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, customerViewModel.arrayCustomer)
             spinner.adapter = adapter
         }
-
-
         binding.OrderButton.setOnClickListener {
             val customerSelected = spinner.selectedItem.toString()
             val customerSelectedId = customerViewModel.getIdCustomer(customerSelected)
@@ -93,15 +73,14 @@ class CheckoutFragment : Fragment() {
         var item = sharedViewModel.checkOutItem
         viewModel.set_items(item)
 
-
         binding.TotaltextView.text = viewModel.totalPrice.value.toString()
 
-        viewModel.items.observe(viewLifecycleOwner, Observer { items ->
+        viewModel.items.observe(viewLifecycleOwner, Observer {
             checkoutRecyclerView.adapter = ItemsCheckoutAdapter(viewModel.items,viewModel,requireContext())
         })
-        viewModel.totalPrice.observe(viewLifecycleOwner, {totalPrice ->
+        viewModel.totalPrice.observe(viewLifecycleOwner) {
             binding.TotaltextView.text = viewModel.totalPrice.value.toString()
-        })
+        }
     }
 
 }

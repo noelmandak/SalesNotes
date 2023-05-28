@@ -90,4 +90,4 @@ if __name__ == '__main__':
     # initiate_table()
     hostname = socket.gethostname()
     ip_address = socket.gethostbyname(hostname)
-    app.run( port=5000, debug=True, host="0.0.0.0")
+    app.run(port=5000, debug=True, host="0.0.0.0")

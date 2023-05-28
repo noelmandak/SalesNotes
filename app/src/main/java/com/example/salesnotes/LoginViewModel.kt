@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.salesnotes.data.LoginRequest
 import com.example.salesnotes.data.LoginResult
 import kotlinx.coroutines.launch
+import java.util.regex.Pattern
 
 class LoginViewModel : ViewModel() {
     private val _loginResult = MutableLiveData<LoginResult>()
@@ -32,11 +33,18 @@ class LoginViewModel : ViewModel() {
                 }
             } catch (e : Exception) {
                 _loginResult.value = LoginResult.Error("Terjadi kesalahan jaringan") // Atur pesan kesalahan yang sesuai
+
+                if (isIPAddress(username)){
+                    RetrofitInstance.changeBaseUrl("http://${username}:5000/")
+                }
             }
         }
     }
-    private fun saveToken(token: String?) {
-        // Simpan token di penyimpanan yang sesuai (misalnya SharedPreferences)
+    fun isIPAddress(input: String): Boolean {
+        val ipPattern = Pattern.compile("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+                "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+                "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+                "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$")
+        return ipPattern.matcher(input).matches()
     }
-
 }

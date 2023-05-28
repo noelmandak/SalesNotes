@@ -18,21 +18,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlinx.coroutines.launch
 class TransactionViewModel : ViewModel() {
-//    lateinit var transactionArrayList: ArrayList<Transaction>
   
     private val _transactionLiveData: MutableLiveData<List<Transaction>> = MutableLiveData()
     val transactionLiveData : MutableLiveData<List<Transaction>> get() = _transactionLiveData
-    var canceled:MutableLiveData<List<Int>> = MutableLiveData()
     val refreshTrigger: MutableLiveData<Unit> = MutableLiveData()
 
-    init {
-        var transactions = arrayListOf(
-            Transaction("Renata",1,5000,"Processed", "1969-12-31 16:00:00"),
-            Transaction("Jeni",2,10000,"Sent","1969-12-31 16:00:00"),
-            Transaction("Timo",3,5000,"Canceled","1969-12-31 16:00:00")
-        )
-//        transactionArrayList = transactions
-    }
     fun triggerRefresh() {
         refreshTrigger.value = Unit
     }
@@ -49,26 +39,17 @@ class TransactionViewModel : ViewModel() {
         }
     }
 
-
-
     fun getAllTransactions(token: String){
         viewModelScope.launch {
             try {
                 val transactionList = transactionService.getAllTransactions(token)
-                _transactionLiveData.value = transactionList
+                if (_transactionLiveData.value!=transactionList){
+                    _transactionLiveData.value = transactionList
+                }
             } catch (e : Exception) {
                 // Tangani error
                 e
             }
-        }
-    }        
-
-
-
-
-    fun cancelTransaction(pos: Int) {
-        if (transactionLiveData.value != null){
-            _transactionLiveData.value?.get(pos)?.transactionStatus = "Canceled"
         }
     }
 }

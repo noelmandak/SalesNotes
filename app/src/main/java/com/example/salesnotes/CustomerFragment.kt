@@ -49,6 +49,8 @@ class CustomerFragment : Fragment() {
             binding.addressTextView.text = customer.address
         }
 
+        binding.titleCustomerFragment.text = "Customer dari ${sharedViewModel.salesName}"
+
         return binding.root
     }
 

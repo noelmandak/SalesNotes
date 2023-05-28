@@ -16,11 +16,6 @@
             app:enterAnim="@anim/nav_default_enter_anim" />
     </fragment>
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.salesnotes.ui.login.LoginFragment"
-        android:label="fragment_login2"
-        tools:layout="@layout/fragment_login2" />
-    <fragment
         android:id="@+id/checkoutFragment"
         android:name="com.example.salesnotes.CheckoutFragment"
         android:label="fragment_checkout"
@@ -56,11 +51,6 @@
             android:id="@+id/action_login2_to_order"
             app:destination="@id/order" />
     </fragment>
-    <fragment
-        android:id="@+id/paymentHistoryFragment"
-        android:name="com.example.salesnotes.PaymentHistoryFragment"
-        android:label="fragment_payment_history"
-        tools:layout="@layout/fragment_payment_history" />
     <fragment
         android:id="@+id/stockFragment"
         android:name="com.example.salesnotes.StockFragment"

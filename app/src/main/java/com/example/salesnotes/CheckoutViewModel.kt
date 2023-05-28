@@ -23,6 +23,7 @@ class CheckoutViewModel : ViewModel() {
 
     var orderRespons : MutableLiveData<OrderResponse> = MutableLiveData()
 
+
     init {
         _totalPrice.value = "0"
     }

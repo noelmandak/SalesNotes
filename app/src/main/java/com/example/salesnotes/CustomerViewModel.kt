@@ -27,29 +27,6 @@ class CustomerViewModel : ViewModel() {
                 // Tangani error
             }
         }
-
-
-
-//        val apiService = RetrofitInstance.customerService
-//        val call = apiService.getAllCustomers(token)
-
-//        call.enqueue(object : Callback<List<Customer>> {
-//            override fun onResponse(call: Call<List<Customer>>, response: Response<List<Customer>>) {
-//                response
-//                if (response.isSuccessful) {
-//                    val customers = response.body()
-//                    if (customers!=null){
-//                        customersLiveData.value = customers
-//                    }
-//                } else {
-//                    // Menghandle kesalahan respons
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<List<Customer>>, t: Throwable) {
-//                // Menghandle kegagalan permintaan
-//            }
-//        })
     }
 
     fun changeCustomerDetail(index:Int) {

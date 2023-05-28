@@ -3,9 +3,7 @@ package com.example.salesnotes
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -68,7 +66,7 @@ class OrderFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val selectedItem = parent.getItemAtPosition(position).toString().lowercase()
                 viewModel.filterItemsByCategory(selectedItem)
-                Toast.makeText(requireContext(), "Andak memilih $selectedItem", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Kamu memilih $selectedItem", Toast.LENGTH_SHORT).show()
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
@@ -99,4 +97,5 @@ class OrderFragment : Fragment() {
 
         return binding.root
     }
+
 }

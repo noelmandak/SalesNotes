@@ -370,5 +370,5 @@ def search_transaction(trans):
             list_transactions.append(data)
         return list_transactions
 
-# COBA
+
 # initiate_table()

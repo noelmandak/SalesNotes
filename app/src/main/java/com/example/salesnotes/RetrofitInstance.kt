@@ -4,7 +4,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
-    var BASE_URL = "http://192.168.231.40:5000/"
+//    var BASE_URL = "http://127.0.0.1:5000/"
+    var BASE_URL = "http://192.168.100.3:5000/"
 
     private var retrofit: Retrofit = createRetrofit(BASE_URL)
 
